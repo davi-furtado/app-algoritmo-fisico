@@ -32,7 +32,8 @@
           "photosPermission": "Permitir acesso às fotos",
           "cameraPermission": "Permitir acesso à câmera"
         }
-      ]
+      ],
+      "expo-asset"
     ]
   }
 }
