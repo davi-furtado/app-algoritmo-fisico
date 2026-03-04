@@ -1,5 +1,6 @@
+cd frontend
+
 ollama pull phi3
 ollama run phi3
 
-cd frontend
 npx expo start
