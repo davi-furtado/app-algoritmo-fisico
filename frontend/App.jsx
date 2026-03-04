@@ -25,7 +25,7 @@ export default function App() {
 
   const webRef = useRef(null)
 
-  const url = 'http://SEU_IP:8000/convert'
+  const url = 'http://SEU_IP_AQUI:8000/convert'
   const enviarImagem = async uri => {
     setLoading(true)
 
