@@ -17,6 +17,7 @@ import { Asset } from 'expo-asset'
 
 export default function App() {
   const [image, setImage] = useState(null)
+  const [pseudocodigo, setPseudocodigo] = useState('')
   const [python, setPython] = useState('')
   const [saida, setSaida] = useState('')
   const [loading, setLoading] = useState(false)
@@ -24,27 +25,32 @@ export default function App() {
 
   const webRef = useRef(null)
 
+  const url = 'http://SEU_IP:8000/convert'
   const enviarImagem = async uri => {
     setLoading(true)
 
     const form = new FormData()
     form.append('file', {
       uri,
-      name: 'img.png',
-      type: 'image/png'
+      name: 'image.bin',
+      type: 'application/octet-stream'
     })
 
     try {
-      const res = await fetch('http://SEU_IP:8000/convert', {
+      const res = await fetch(url, {
         method: 'POST',
         body: form
       })
 
       const json = await res.json()
-      setPython(json.python || '')
-      setSaida(json.saida || '')
+      if (json.erro) setSaida(json.erro)
+      else {
+        setPseudocodigo(json.pseudocodigo || '')
+        setPython(json.python || '')
+        setSaida(json.saida || '')
+      }
     } catch (e) {
-      setSaida('Erro ao conectar com o servidor')
+      setSaida(`Erro ao conectar com o servidor: ${e.message}`)
     }
 
     setLoading(false)
@@ -118,6 +124,9 @@ export default function App() {
         />
       )}
 
+      {/* Saída */}
+      {saida !== '' && <Text style={styles.saida}>{saida}</Text>}
+
       {/* Código Python com highlight */}
       {python !== '' && (
         <ScrollView
@@ -137,9 +146,6 @@ export default function App() {
           />
         </ScrollView>
       )}
-
-      {/* Saída */}
-      {saida !== '' && <Text style={styles.saida}>{saida}</Text>}
     </ScrollView>
   )
 }

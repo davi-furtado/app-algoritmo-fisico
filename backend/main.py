@@ -60,10 +60,14 @@ async def convert(file: UploadFile = File(...)):
         remove(temp_path)
         return {'erro': 'Imagem inválida ou corrompida.'}
 
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    cv2.imwrite(temp_path, gray)
+    try:
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        cv2.imwrite(temp_path, gray)
+        results = reader.readtext(temp_path)
+    except Exception as e:
+        remove(temp_path)
+        return {'erro': f'Erro ao processar a imagem: {str(e)}'}
 
-    results = reader.readtext(temp_path)
     pseudocodigo = organizar_linhas(results)
 
     prompt = f'''
@@ -75,13 +79,16 @@ Caso haja erros de sintaxe no pseudocódigo, corrija-os na conversão.
 Pseudocódigo:
 {pseudocodigo}
 '''
-
-    proc = subprocess.run(
-        ['ollama', 'run', 'phi3'],
-        input=prompt,
-        text=True,
-        capture_output=True
-    )
+    try:
+        proc = subprocess.run(
+            ['ollama', 'run', 'phi3'],
+            input=prompt,
+            text=True,
+            capture_output=True
+        )
+    except Exception as e:
+        remove(temp_path)
+        return {'erro': f'Erro ao executar o modelo: {str(e)}'}
 
     python_code = proc.stdout.strip()
 
@@ -100,7 +107,7 @@ Pseudocódigo:
     return {
         'pseudocodigo': pseudocodigo,
         'python': python_code,
-        'saida': exec_proc.stdout or exec_proc.stderr
+        'saida': exec_proc.stdout
     }
 
 run(app, host='0.0.0.0')

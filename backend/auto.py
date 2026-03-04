@@ -22,12 +22,10 @@ async def convert(file: UploadFile = File(...)):
 
     img = cv2.imread(temp_path)
 
+    remove(temp_path)
     if img is None:
-        remove(temp_path)
         return {'erro': 'Imagem inválida ou corrompida.'}
     
-    remove(temp_path)
-
     return {
         'pseudocodigo': 'INÍCIO\nSE 4 > 2 ENTÃO\n  IMPRIMA 0\nFIM SE',
         'python': 'if 4 > 2:\n    print(0)',
