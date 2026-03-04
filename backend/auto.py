@@ -1,5 +1,6 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from uvicorn import run
 from os import remove
 import cv2, tempfile
 
@@ -25,8 +26,12 @@ async def convert(file: UploadFile = File(...)):
         remove(temp_path)
         return {'erro': 'Imagem inválida ou corrompida.'}
     
+    remove(temp_path)
+
     return {
         'pseudocodigo': 'INÍCIO\nSE 4 > 2 ENTÃO\n  IMPRIMA 0\nFIM SE',
         'python': 'if 4 > 2:\n    print(0)',
         'saida': '0'
     }
+
+run(app, host='0.0.0.0')
