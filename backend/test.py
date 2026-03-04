@@ -1,6 +1,6 @@
 import requests as rq
 
-img = 'path'
+img = input()
 url = 'http://localhost:8000/convert'
 
 with open(img, 'rb') as file:
