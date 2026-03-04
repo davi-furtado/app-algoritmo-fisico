@@ -5,7 +5,6 @@ import cv2
 import tempfile
 import subprocess
 import os
-import uuid
 
 app = FastAPI()
 
@@ -19,9 +18,6 @@ app.add_middleware(
 reader = easyocr.Reader(['pt'], gpu=False)
 
 def organizar_linhas(results, y_threshold=25):
-    '''
-    Organiza o texto OCR respeitando linhas e ordem horizontal.
-    '''
     linhas = []
 
     for bbox, txt, _ in results:
@@ -42,7 +38,6 @@ def organizar_linhas(results, y_threshold=25):
         texto_final.append(' '.join(t[1] for t in linha['itens']))
 
     return '\n'.join(texto_final)
-
 
 @app.post('/convert')
 async def convert(file: UploadFile = File(...)):
@@ -74,18 +69,17 @@ Pseudocódigo:
 
     python_code = proc.stdout.strip()
 
-    py_file = f'/tmp/{uuid.uuid4()}.py'
-    with open(py_file, 'w', encoding='utf-8') as f:
+    with open('code.py', 'w', encoding='utf-8') as f:
         f.write(python_code)
 
     exec_proc = subprocess.run(
-        ['python', py_file],
+        ['python', 'code.py'],
         capture_output=True,
         text=True
     )
 
     os.unlink(temp_img.name)
-    os.unlink(py_file)
+    os.unlink('code.py')
 
     return {
         'python': python_code,
