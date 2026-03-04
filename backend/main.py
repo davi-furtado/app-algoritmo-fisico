@@ -98,6 +98,7 @@ Pseudocódigo:
     remove('code.py')
 
     return {
+        'pseudocodigo': pseudocodigo,
         'python': python_code,
         'saida': exec_proc.stdout or exec_proc.stderr
     }
