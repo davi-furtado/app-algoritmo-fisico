@@ -1,7 +1,7 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from uvicorn import run
-from os import remove
+from os import remove, path
 import cv2, tempfile
 
 app = FastAPI()
@@ -16,7 +16,9 @@ app.add_middleware(
 
 @app.post('/convert')
 async def convert(file: UploadFile = File(...)):
-    with tempfile.NamedTemporaryFile(delete=False, suffix='.png') as temp_img:
+    ext = path.splitext(file.filename)[1].lower()
+    
+    with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as temp_img:
         temp_path = temp_img.name
         temp_img.write(await file.read())
 

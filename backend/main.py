@@ -50,7 +50,9 @@ def organizar_linhas(results):
 
 @app.post('/convert')
 async def convert(file: UploadFile = File(...)):
-    with tempfile.NamedTemporaryFile(delete=False, suffix='.png') as temp_img:
+    ext = path.splitext(file.filename)[1].lower()]:
+    
+    with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as temp_img:
         temp_path = temp_img.name
         temp_img.write(await file.read())
 

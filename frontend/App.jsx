@@ -30,11 +30,20 @@ export default function App() {
   const enviarImagem = async uri => {
     setLoading(true)
 
+    const ext = uri.split('.').pop()
+    const mime =
+      {
+        jpg: 'image/jpeg',
+        jpeg: 'image/jpeg',
+        png: 'image/png',
+        webp: 'image/webp'
+      }[ext] || 'image/jpg'
+
     const form = new FormData()
     form.append('file', {
       uri,
-      name: 'image.bin',
-      type: 'application/octet-stream'
+      name: `ìmage.${ext}`,
+      type: mime
     })
 
     try {
