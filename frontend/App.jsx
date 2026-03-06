@@ -12,9 +12,11 @@ import {
 
 import { useState, useRef } from 'react'
 import * as ImagePicker from 'expo-image-picker'
-import { WebView } from 'react-native-webview'
-import { Asset } from 'expo-asset'
+import WebView from 'react-native-webview'
+import Asset from 'expo-asset'
+import InsertPhotoBtn from './components/InsertPhotoBtn'
 
+const url = 'http://SEU_IP_AQUI:8000/convert'
 export default function App() {
   const [image, setImage] = useState(null)
   const [pseudocodigo, setPseudocodigo] = useState('')
@@ -25,7 +27,6 @@ export default function App() {
 
   const webRef = useRef(null)
 
-  const url = 'http://SEU_IP_AQUI:8000/convert'
   const enviarImagem = async uri => {
     setLoading(true)
 
@@ -73,23 +74,18 @@ export default function App() {
       {/* Botões */}
       <View style={styles.row}>
         {Platform.OS !== 'web' && (
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => pickImage(true)}
-          >
-            <Text style={styles.btnText}>Câmera</Text>
-          </TouchableOpacity>
+          <InsertPhotoBtn
+            texto='Câmera'
+            isWeb={false}
+          />
         )}
 
-        <TouchableOpacity
-          style={styles.btn}
-          onPress={() => pickImage(false)}
-        >
-          <Text style={styles.btnText}>Fototeca</Text>
-        </TouchableOpacity>
+        <InsertPhotoBtn
+          texto='Galeria'
+          isWeb={true}
+        />
       </View>
 
-      {/* Imagem */}
       {image && (
         <>
           <TouchableOpacity onPress={() => setZoom(true)}>
@@ -104,7 +100,7 @@ export default function App() {
             animationType='fade'
           >
             <TouchableOpacity onPress={() => setZoom(false)}>
-              <Text style={styles.close}>✕</Text>
+              <Text style={styles.close}>x</Text>
             </TouchableOpacity>
 
             <Image
@@ -115,19 +111,16 @@ export default function App() {
         </>
       )}
 
-      {/* Loading */}
       {loading && (
         <ActivityIndicator
           size='large'
-          color='#1760ff'
+          color='#fff'
           style={{ marginTop: 20 }}
         />
       )}
 
-      {/* Saída */}
       {saida !== '' && <Text style={styles.saida}>{saida}</Text>}
 
-      {/* Código Python com highlight */}
       {python !== '' && (
         <ScrollView
           horizontal
@@ -189,12 +182,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 10
   },
-  codeBox: {
-    marginTop: 16
-  },
   saida: {
     color: '#0f0',
     marginTop: 12,
     fontFamily: 'monospace'
+  },
+  codeBox: {
+    marginTop: 16
   }
 })
