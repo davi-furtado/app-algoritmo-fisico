@@ -1,7 +1,7 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import easyocr, cv2, tempfile, subprocess, unidecode as ud
-from os import remove
+from os import remove, path
 from uvicorn import run
 
 app = FastAPI()
@@ -14,7 +14,7 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-reader = easyocr.Reader(['pt'], gpu=False)
+reader = easyocr.Reader(['pt'])
 
 def organizar_linhas(results):
     if not results:
@@ -64,6 +64,12 @@ async def convert(file: UploadFile = File(...)):
 
     try:
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        clahe = cv2.createCLAHE(
+            clipLimit=2.0,
+            tileGridSize=(8,8)
+        )
+        gray = clahe.apply(gray)
+
         cv2.imwrite(temp_path, gray)
         results = reader.readtext(temp_path)
     except Exception as e:
