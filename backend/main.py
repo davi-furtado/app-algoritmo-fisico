@@ -1,6 +1,6 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-import easyocr, cv2, tempfile, subprocess
+import easyocr, cv2, tempfile, subprocess, unidecode as ud
 from os import remove
 from uvicorn import run
 
@@ -44,7 +44,7 @@ def organizar_linhas(results):
     texto_final = []
     for linha in linhas:
         linha['itens'].sort(key=lambda t: t[0][0][0])
-        texto_final.append(' '.join(t[1] for t in linha['itens']))
+        texto_final.append(ud.unidecode((' '.join(t[1] for t in linha['itens'])).upper()))
 
     return '\n'.join(texto_final)
 
