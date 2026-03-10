@@ -3,10 +3,10 @@ import cv2.aruco as aruco
 import os
 import json
 
-with open("blocos.json", "r", encoding="utf-8") as f:
+with open('blocos.json', encoding='utf-8') as f:
     blocos = json.load(f)
 
-os.makedirs("arucos", exist_ok=True)
+os.makedirs('arucos', exist_ok=True)
 dictionary = aruco.getPredefinedDictionary(aruco.DICT_5X5_100)
 
 for id_str, texto in blocos.items():
@@ -23,15 +23,15 @@ for id_str, texto in blocos.items():
 
     nome = texto
     match nome:
-        case "+": nome = "mais"
-        case "-": nome = "menos"
-        case "*": nome = "vezes"
-        case "/": nome = "dividido"
-        case '=': nome = "igual"
-        case "!=": nome = "diferente"
-        case "<": nome = "menor"
-        case ">": nome = "maior"
-        case "<=": nome = "menor_igual"
-        case ">=": nome = "maior_igual"
+        case '+': nome = 'mais'
+        case '-': nome = 'menos'
+        case '*': nome = 'vezes'
+        case '/': nome = 'dividido'
+        case '=': nome = 'igual'
+        case '!=': nome = 'diferente'
+        case '<': nome = 'menor'
+        case '>': nome = 'maior'
+        case '<=': nome = 'menor_igual'
+        case '>=': nome = 'maior_igual'
 
-    cv2.imwrite(f"arucos/{marker_id}_{nome}.png", marker)
+    cv2.imwrite(f'arucos/{marker_id}_{nome}.png', marker)
