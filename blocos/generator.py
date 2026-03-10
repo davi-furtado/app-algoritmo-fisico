@@ -16,12 +16,12 @@ for id_str, texto in blocos.items():
 
     marker = cv2.copyMakeBorder(
         marker,
-        60, 60, 60, 60,
+        30, 30, 30, 30,
         cv2.BORDER_CONSTANT,
         value=255
     )
 
-    nome = texto
+    nome = texto.replace(' ', '_')
     match nome:
         case '+': nome = 'mais'
         case '-': nome = 'menos'
