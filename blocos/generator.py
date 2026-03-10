@@ -3,7 +3,7 @@ import cv2.aruco as aruco
 import os
 import json
 
-with open('blocos.json', encoding='utf-8') as f:
+with open('blocos.json') as f:
     blocos = json.load(f)
 
 os.makedirs('arucos', exist_ok=True)

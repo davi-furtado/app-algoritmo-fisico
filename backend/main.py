@@ -14,7 +14,7 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-with open('blocos.json', encoding='utf-8') as f:
+with open('blocos.json') as f:
     blocos = json.load(f)
 
 dictionary = aruco.getPredefinedDictionary(aruco.DICT_5X5_100)
