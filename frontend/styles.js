@@ -1,4 +1,4 @@
-import StyleSheet from 'react-native'
+import { StyleSheet } from 'react-native'
 
 export default StyleSheet.create({
   container: {
@@ -8,7 +8,8 @@ export default StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
-    gap: 8
+    gap: 8,
+    marginTop: 50
   },
   btn: {
     backgroundColor: '#1760ff',
@@ -23,8 +24,8 @@ export default StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 220,
-    marginTop: 12,
+    height: '80%',
+    marginTop: 9,
     borderRadius: 8
   },
   full: {
@@ -33,11 +34,17 @@ export default StyleSheet.create({
     backgroundColor: '#000'
   },
   close: {
-    color: '#fff',
+    color: 'invert',
     fontSize: 30,
     padding: 20,
-    position: 'absolute',
-    zIndex: 10
+    fontWeight: 'bold',
+    marginTop: 'auto',
+    marginRight: 'auto'
+  },
+  scroll: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   saida: {
     color: '#0f0',

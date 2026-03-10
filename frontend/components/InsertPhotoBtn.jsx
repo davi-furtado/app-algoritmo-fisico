@@ -1,13 +1,12 @@
 import { Text, TouchableOpacity } from 'react-native'
 import styles from '../styles'
-import pickImage from '../App'
 
-export default function InsertPhotoBtn({ texto, isWeb }) {
+export default function InsertPhotoBtn({ texto, onPress, isMobile }) {
   return (
     <TouchableOpacity
       style={styles.btn}
-      onPress={() => pickImage(~isWeb)}
-      activeOpacity={0.75}
+      onPress={() => onPress(isMobile)}
+      activeOpacity={0.6}
     >
       <Text style={styles.btnText}>{texto}</Text>
     </TouchableOpacity>

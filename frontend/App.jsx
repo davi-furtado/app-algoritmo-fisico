@@ -12,12 +12,13 @@ import {
 
 import { useState, useRef } from 'react'
 import * as ImagePicker from 'expo-image-picker'
-import WebView from 'react-native-webview'
-import Asset from 'expo-asset'
+import { WebView } from 'react-native-webview'
+import { Asset } from 'expo-asset'
 import styles from './styles'
 import InsertPhotoBtn from './components/InsertPhotoBtn'
 
-const url = 'http://10.3.152.14:8000/convert'
+const url = 'http://10.3.152.18:8000/convert'
+
 export default function App() {
   const [image, setImage] = useState(null)
   const [pseudocodigo, setPseudocodigo] = useState('')
@@ -86,19 +87,24 @@ export default function App() {
         {Platform.OS !== 'web' && (
           <InsertPhotoBtn
             texto='Câmera'
-            isWeb={false}
+            onPress={pickImage}
+            isMobile={true}
           />
         )}
 
         <InsertPhotoBtn
           texto='Galeria'
-          isWeb={true}
+          onPress={pickImage}
+          isWeb={false}
         />
       </View>
 
       {image && (
         <>
-          <TouchableOpacity onPress={() => setZoom(true)}>
+          <TouchableOpacity
+            onPress={() => setZoom(true)}
+            activeOpacity={0.6}
+          >
             <Image
               source={{ uri: image }}
               style={styles.image}
@@ -110,13 +116,20 @@ export default function App() {
             animationType='fade'
           >
             <TouchableOpacity onPress={() => setZoom(false)}>
-              <Text style={styles.close}>x</Text>
+              <Text style={styles.close}>Fechar</Text>
             </TouchableOpacity>
 
-            <Image
-              source={{ uri: image }}
-              style={styles.full}
-            />
+            <ScrollView
+              maximumZoomScale={5}
+              minimumZoomScale={1}
+              contentContainerStyle={styles.scroll}
+            >
+              <Image
+                source={{ uri: image }}
+                style={styles.full}
+                resizeMode='contain'
+              />
+            </ScrollView>
           </Modal>
         </>
       )}
