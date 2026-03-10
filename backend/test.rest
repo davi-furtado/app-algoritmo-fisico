@@ -4,5 +4,5 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="file"; filename='imagem.jpg'; Content-Type: image/jpeg
 
-< path
+< SEU_PATH_DE_TESTE_AQUI
 --boundary--
