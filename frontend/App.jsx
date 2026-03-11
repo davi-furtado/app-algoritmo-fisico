@@ -17,7 +17,7 @@ import { Asset } from 'expo-asset'
 import styles from './styles'
 import InsertPhotoBtn from './components/InsertPhotoBtn'
 
-const url = 'http://10.3.152.18:8000/convert'
+const url = 'http://SEU_IP_AQUI:8000/convert'
 
 export default function App() {
   const [image, setImage] = useState(null)
