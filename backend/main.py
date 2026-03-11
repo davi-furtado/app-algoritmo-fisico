@@ -1,8 +1,10 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import cv2, cv2.aruco as aruco
-import json, tempfile, subprocess
+import json, tempfile
 from os import remove, path
+import io, sys
+from conversor import toPython
 
 app = FastAPI()
 
@@ -14,7 +16,7 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-with open('blocos.json') as f:
+with open('blocos.json', encoding='utf-8') as f:
     blocos = json.load(f)
 
 dictionary = aruco.getPredefinedDictionary(aruco.DICT_5X5_100)
@@ -55,7 +57,6 @@ def ler_arucos(img):
         texto_final.append(' '.join(palavras))
     return '\n'.join(texto_final)
 
-
 @app.post('/convert')
 async def convert(file: UploadFile = File(...)):
     ext = path.splitext(file.filename)[1].lower()
@@ -65,55 +66,28 @@ async def convert(file: UploadFile = File(...)):
         temp_img.write(await file.read())
 
     img = cv2.imread(temp_path)
-
     if img is None:
         remove(temp_path)
         return {'erro': 'Imagem inválida ou corrompida.'}
 
     try:
         pseudocodigo = ler_arucos(img)
-
         if pseudocodigo is None or pseudocodigo.strip() == '':
             remove(temp_path)
             return {'erro': 'Nenhum código detectado na imagem.'}
-
     except Exception as e:
         remove(temp_path)
         return {'erro': f'Erro ao processar a imagem: {str(e)}'}
 
-    prompt = f'''
-Converta o pseudocódigo abaixo para Python válido.
-Retorne SOMENTE o código Python.
-Caso o pseudocódigo seja ambíguo, faça as melhores suposições para criar um código funcional.
-Caso haja erros de sintaxe no pseudocódigo, corrija-os na conversão.
-
-Pseudocódigo:
-{pseudocodigo}
-'''
-
-    try:
-        proc = subprocess.run(
-            ['ollama', 'run', 'phi3'],
-            input=prompt,
-            text=True,
-            capture_output=True
-        )
-    except Exception as e:
-        remove(temp_path)
-        return {'erro': f'Erro ao executar o modelo: {str(e)}'}
-    python_code = proc.stdout.strip()
-
-    import io
-    import sys
+    python_code = toPython(pseudocodigo)
 
     stdout_backup = sys.stdout
     sys.stdout = io.StringIO()
-
     try:
         exec(python_code, {})
         saida = sys.stdout.getvalue()
     except Exception as e:
-        saida = f'Erro ao executar o código: {e}'
+        return {'erro': f'Erro ao executar o código: {e}'}
     sys.stdout = stdout_backup
 
     remove(temp_path)
