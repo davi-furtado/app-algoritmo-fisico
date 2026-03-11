@@ -4,7 +4,7 @@ import cv2, cv2.aruco as aruco
 import json, tempfile
 from os import remove, path
 import io, sys
-from conversor import toPython
+from conversor import indentPseudo, toPython
 
 app = FastAPI()
 
@@ -93,7 +93,7 @@ async def convert(file: UploadFile = File(...)):
     remove(temp_path)
 
     return {
-        'pseudocodigo': pseudocodigo,
+        'pseudocodigo': indentPseudo(pseudocodigo),
         'python': python_code,
         'saida': saida
     }

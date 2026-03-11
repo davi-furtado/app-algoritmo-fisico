@@ -2,6 +2,7 @@
 <html lang="pt-br">
   <head>
     <meta charset="utf-8" />
+
     <style>
       body {
         margin: 0;
@@ -14,30 +15,27 @@
         overflow-x: auto;
         font-family: Consolas, monospace;
         font-size: 14px;
+        line-height: 1.35;
         color: #d4d4d4;
+        white-space: pre;
       }
 
       .keyword-if {
         color: #569cd6;
       }
-
       .keyword-loop {
         color: #c586c0;
       }
-
       .keyword-print {
         color: #4ec9b0;
       }
-
       .keyword-var {
         color: #dcdcaa;
       }
-
       .operator {
         color: #d4d4d4;
         font-weight: bold;
       }
-
       .number {
         color: #b5cea8;
       }
@@ -58,30 +56,42 @@
       function highlight(code) {
         code = escapeHTML(code)
 
+        code = code.replace(
+          /\b(senao se|se|senao|fim se|if|elif|else)\b/g,
+          '<span class="keyword-if">$1</span>'
+        )
+
+        code = code.replace(
+          /\b(repita|fim repita|enquanto|fim enquanto|while|for|range|inicio|fim)\b/g,
+          '<span class="keyword-loop">$1</span>'
+        )
+
+        code = code.replace(
+          /\b(mostre|print)\b/g,
+          '<span class="keyword-print">$1</span>'
+        )
+
+        code = code.replace(
+          /\b(vale)\b/g,
+          '<span class="keyword-var">$1</span>'
+        )
+
+        code = code.replace(
+          /\b(verdadeiro|falso|True|False)\b/g,
+          '<span class="keyword-if">$1</span>'
+        )
+
+        code = code.replace(
+          /(==|!=|>=|<=|>|<|=|\+|\-|\*|\/)/g,
+          '<span class="operator">$1</span>'
+        )
+
+        code = code.replace(
+          /\b\d+(\.\d+)?\b/g,
+          '<span class="number">$&</span>'
+        )
+
         return code
-          .replace(
-            /\b(se|senao se|senao|fim se|if|elif|else)\b/g,
-            '<span class="keyword-if">$&</span>'
-          )
-          .replace(
-            /\b(repita|fim repita|enquanto|fim enquanto|while)\b/g,
-            '<span class="keyword-loop">$&</span>'
-          )
-          .replace(
-            /\b(mostre|print)\b/g,
-            '<span class="keyword-print">$&</span>'
-          )
-          .replace(/\b(vale)\b/g, '<span class="keyword-var">$&</span>')
-          .replace(
-            /\b(verdadeiro|falso|True|False)\b/g,
-            '<span class="keyword-if">$&</span>'
-          )
-          .replace(/\b(inicio|fim)\b/g, '<span class="keyword-loop">$&</span>')
-          .replace(
-            /(\+|\-|\*|\/|==|!=|>=|<=|>|<|=)/g,
-            '<span class="operator">$1</span>'
-          )
-          .replace(/\b\d+(\.\d+)?\b/g, '<span class="number">$&</span>')
       }
 
       document.addEventListener('message', e => {
