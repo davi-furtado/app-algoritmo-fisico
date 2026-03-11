@@ -29,7 +29,7 @@ async def convert(file: UploadFile = File(...)):
         return {'erro': 'Imagem inválida ou corrompida.'}
     
     return {
-        'pseudocodigo': 'INÍCIO\nSE 4 > 2 ENTÃO\n  IMPRIMA 0\nFIM SE',
+        'pseudocodigo': 'inicio\nse 4 > 2\nmostre 0\nfim se\nfim',
         'python': 'if 4 > 2:\n    print(0)',
         'saida': '0'
     }
