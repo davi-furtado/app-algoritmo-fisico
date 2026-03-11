@@ -6,7 +6,6 @@ import {
   ActivityIndicator,
   ScrollView,
   Modal,
-  StyleSheet,
   Platform
 } from 'react-native'
 
@@ -27,7 +26,8 @@ export default function App() {
   const [loading, setLoading] = useState(false)
   const [zoom, setZoom] = useState(false)
 
-  const webRef = useRef(null)
+  const pseudoRef = useRef(null)
+  const pythonRef = useRef(null)
 
   const enviarImagem = async uri => {
     setLoading(true)
@@ -44,7 +44,7 @@ export default function App() {
     const form = new FormData()
     form.append('file', {
       uri,
-      name: `ìmage.${ext}`,
+      name: `image.${ext}`,
       type: mime
     })
 
@@ -55,6 +55,7 @@ export default function App() {
       })
 
       const json = await res.json()
+
       if (json.erro) setSaida(json.erro)
       else {
         setPseudocodigo(json.pseudocodigo || '')
@@ -80,6 +81,8 @@ export default function App() {
     }
   }
 
+  const prism = Asset.fromModule(require('./assets/prism.html')).uri
+
   return (
     <ScrollView style={styles.container}>
       {/* Botões */}
@@ -95,7 +98,7 @@ export default function App() {
         <InsertPhotoBtn
           texto='Galeria'
           onPress={pickImage}
-          isWeb={false}
+          isMobile={false}
         />
       </View>
 
@@ -144,20 +147,33 @@ export default function App() {
 
       {saida !== '' && <Text style={styles.saida}>{saida}</Text>}
 
+      {/* Pseudocódigo */}
+      {pseudocodigo !== '' && (
+        <ScrollView
+          horizontal
+          style={styles.codeBox}
+        >
+          <WebView
+            ref={pseudoRef}
+            originWhitelist={['*']}
+            source={{ uri: prism }}
+            onLoadEnd={() => pseudoRef.current.postMessage(pseudocodigo)}
+            style={{ height: 220 }}
+          />
+        </ScrollView>
+      )}
+
+      {/* Python */}
       {python !== '' && (
         <ScrollView
           horizontal
           style={styles.codeBox}
         >
           <WebView
-            ref={webRef}
+            ref={pythonRef}
             originWhitelist={['*']}
-            source={{
-              uri: Asset.fromModule(require('./assets/prism.html')).uri
-            }}
-            onLoadEnd={() => {
-              webRef.current.postMessage(python)
-            }}
+            source={{ uri: prism }}
+            onLoadEnd={() => pythonRef.current.postMessage(python)}
             style={{ height: 320 }}
           />
         </ScrollView>
