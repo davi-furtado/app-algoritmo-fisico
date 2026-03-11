@@ -7,6 +7,7 @@
         margin: 0;
         background: #111;
       }
+
       pre {
         margin: 0;
         padding: 12px;
@@ -15,37 +16,72 @@
         font-size: 14px;
         color: #d4d4d4;
       }
-      .keyword {
+
+      .keyword-if {
         color: #569cd6;
       }
-      .string {
-        color: #ce9178;
+
+      .keyword-loop {
+        color: #c586c0;
       }
+
+      .keyword-print {
+        color: #4ec9b0;
+      }
+
+      .keyword-var {
+        color: #dcdcaa;
+      }
+
+      .operator {
+        color: #d4d4d4;
+        font-weight: bold;
+      }
+
       .number {
         color: #b5cea8;
       }
-      .comment {
-        color: #6a9955;
-      }
-      .function {
-        color: #dcdcaa;
-      }
     </style>
   </head>
+
   <body>
     <pre id="code"></pre>
 
     <script>
-      function highlight(code) {
+      function escapeHTML(code) {
         return code
-          .replace(/#.*/g, '<span class="comment">$&</span>')
-          .replace(/"(.*?)"|\'(.*?)\'/g, '<span class="string">$&</span>')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+      }
+
+      function highlight(code) {
+        code = escapeHTML(code)
+
+        return code
           .replace(
-            /\b(def|if|else|elif|while|for|return|import|from|as|print|True|False|None)\b/g,
-            '<span class="keyword">$1</span>'
+            /\b(se|senao se|senao|fim se|if|elif|else)\b/g,
+            '<span class="keyword-if">$&</span>'
+          )
+          .replace(
+            /\b(repita|fim repita|enquanto|fim enquanto|while)\b/g,
+            '<span class="keyword-loop">$&</span>'
+          )
+          .replace(
+            /\b(mostre|print)\b/g,
+            '<span class="keyword-print">$&</span>'
+          )
+          .replace(/\b(vale)\b/g, '<span class="keyword-var">$&</span>')
+          .replace(
+            /\b(verdadeiro|falso|True|False)\b/g,
+            '<span class="keyword-if">$&</span>'
+          )
+          .replace(/\b(inicio|fim)\b/g, '<span class="keyword-loop">$&</span>')
+          .replace(
+            /(\+|\-|\*|\/|==|!=|>=|<=|>|<|=)/g,
+            '<span class="operator">$1</span>'
           )
           .replace(/\b\d+(\.\d+)?\b/g, '<span class="number">$&</span>')
-          .replace(/\b[a-zA-Z_]\w*(?=\()/g, '<span class="function">$&</span>')
       }
 
       document.addEventListener('message', e => {

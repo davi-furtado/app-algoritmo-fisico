@@ -5,7 +5,7 @@ KEYWORDS = {
     'senao se': 'elif',
     'senao': 'else',
     'fim se': None,
-    'repita': 'while True',
+    'repita': 'for',
     'fim repita': None,
     'enquanto': 'while',
     'fim enquanto': None,
@@ -18,6 +18,7 @@ BOOLEANS = {
 }
 
 INDENT_STEP = 4
+
 
 def toPython(pseudocodigo):
     python_lines = []
@@ -43,43 +44,73 @@ def toPython(pseudocodigo):
             if kw in {'if', 'elif', 'while'}:
                 cond = ' '.join(tokens[1:]) if len(tokens) > 1 else ''
                 cond = exprToPython(cond)
-                python_lines.append(' ' * (indent_stack[-1] * INDENT_STEP) + f'{kw} {cond}:')
+
+                python_lines.append(
+                    ' ' * (indent_stack[-1] * INDENT_STEP) + f'{kw} {cond}:'
+                )
+
                 if kw in {'if', 'while'}:
                     indent_stack.append(indent_stack[-1] + 1)
+
                 continue
 
-            if kw == 'while True':
-                python_lines.append(' ' * (indent_stack[-1] * INDENT_STEP) + 'while True:')
+            if kw == 'for':
+                expr = ' '.join(tokens[1:]) if len(tokens) > 1 else ''
+                expr = exprToPython(expr)
+
+                python_lines.append(
+                    ' ' * (indent_stack[-1] * INDENT_STEP) +
+                    f'for _ in range({expr}):'
+                )
+
                 indent_stack.append(indent_stack[-1] + 1)
                 continue
 
             if kw == 'else':
-                python_lines.append(' ' * (indent_stack[-2] * INDENT_STEP) + 'else:')
+                python_lines.append(
+                    ' ' * (indent_stack[-2] * INDENT_STEP) + 'else:'
+                )
                 indent_stack[-1] = indent_stack[-2] + 1
                 continue
 
             if kw == 'print':
                 conteudo = ' '.join(tokens[1:]) if len(tokens) > 1 else ''
                 conteudo = exprToPython(conteudo)
-                python_lines.append(' ' * (indent_stack[-1] * INDENT_STEP) + f'print({conteudo})')
+
+                python_lines.append(
+                    ' ' * (indent_stack[-1] * INDENT_STEP) +
+                    f'print({conteudo})'
+                )
+
                 continue
 
         if 'vale' in linha:
             var, valor = linha.split('vale', 1)
             var = var.strip()
             valor = exprToPython(valor.strip())
-            python_lines.append(' ' * (indent_stack[-1] * INDENT_STEP) + f'{var} = {valor}')
+
+            python_lines.append(
+                ' ' * (indent_stack[-1] * INDENT_STEP) +
+                f'{var} = {valor}'
+            )
+
             continue
 
-        python_lines.append(' ' * (indent_stack[-1] * INDENT_STEP) + exprToPython(linha))
+        python_lines.append(
+            ' ' * (indent_stack[-1] * INDENT_STEP) +
+            exprToPython(linha)
+        )
+
     return '\n'.join(python_lines)
 
 def exprToPython(expr):
     tokens = expr.split()
     result = []
+
     for t in tokens:
         if t in BOOLEANS:
             result.append(BOOLEANS[t])
         else:
             result.append(t)
+
     return ' '.join(result)
