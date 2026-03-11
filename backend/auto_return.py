@@ -1,8 +1,8 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from uvicorn import run
-from os import remove, path
 import cv2, tempfile
+from os import remove, path
+from uvicorn import run
 
 app = FastAPI()
 

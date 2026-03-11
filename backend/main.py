@@ -1,9 +1,9 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 import cv2, cv2.aruco as aruco
-import json, tempfile
+import json, tempfile, io, sys
 from os import remove, path
-import io, sys
+from uvicorn import run
 from conversor import indentPseudo, toPython
 
 app = FastAPI()
@@ -97,3 +97,5 @@ async def convert(file: UploadFile = File(...)):
         'python': python_code,
         'saida': saida
     }
+
+run(app, host='0.0.0.0')
