@@ -17,7 +17,8 @@ BOOLEANS = {
     'falso': 'False'
 }
 
-INDENT_STEP = 2
+PSEUDO_INDENT_STEP = 2
+PYTHON_INDENT_STEP = 4
 
 
 def getKeyword(tokens):
@@ -56,7 +57,7 @@ def indentPseudo(pseudocodigo):
     resultado = []
 
     for linha, nivel in zip(linhas, niveis):
-        resultado.append(' ' * (nivel * INDENT_STEP) + linha)
+        resultado.append(' ' * (nivel * PSEUDO_INDENT_STEP) + linha)
 
     return '\n'.join(resultado)
 
@@ -90,7 +91,7 @@ def toPython(pseudocodigo):
                 valor = exprToPython(valor.strip())
 
                 python_lines.append(
-                    ' ' * (nivel * INDENT_STEP) +
+                    ' ' * (nivel * PYTHON_INDENT_STEP) +
                     f'{var.strip()} = {valor}'
                 )
             continue
@@ -103,27 +104,27 @@ def toPython(pseudocodigo):
         if py in {'if', 'elif', 'while'}:
             cond = exprToPython(' '.join(rest))
             python_lines.append(
-                ' ' * (nivel * INDENT_STEP) +
+                ' ' * (nivel * PYTHON_INDENT_STEP) +
                 f'{py} {cond}:'
             )
 
         elif py == 'for':
             expr = exprToPython(' '.join(rest))
             python_lines.append(
-                ' ' * (nivel * INDENT_STEP) +
+                ' ' * (nivel * PYTHON_INDENT_STEP) +
                 f'for _ in range({expr}):'
             )
 
         elif py == 'else':
             python_lines.append(
-                ' ' * (nivel * INDENT_STEP) +
+                ' ' * (nivel * PYTHON_INDENT_STEP) +
                 'else:'
             )
 
         elif py == 'print':
             conteudo = exprToPython(' '.join(rest))
             python_lines.append(
-                ' ' * (nivel * INDENT_STEP) +
+                ' ' * (nivel * PYTHON_INDENT_STEP) +
                 f'print({conteudo})'
             )
 

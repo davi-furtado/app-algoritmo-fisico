@@ -5,47 +5,131 @@
   <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E">
   <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54">
   <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi">
+  <img src="https://img.shields.io/badge/OpenCV-ArUco-green?style=for-the-badge&logo=opencv&logoColor=white">
+  <img src="https://img.shields.io/badge/expo-000020?style=for-the-badge&logo=expo&logoColor=white">
 </div>
 
 <p align="right">
 Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir de imagens e retorna o código equivalente em <b>Python</b> junto com a <b>saída da execução</b>.
 </p>
 
-## Funcionalidades
+# Funcionalidades
 
 - Captura de imagem pela câmera ou galeria
 - Reconhecimento de marcadores **ArUco**
 - Conversão do pseudocódigo para Python no próprio backend
 - Execução do código gerado
 - Retorno do código e da saída
+- **Indentação automática do pseudocódigo**
+- **Indentação automática do Python gerado**
+- **Syntax Highlight do código exibido no aplicativo**
+- Visualização ampliada da imagem capturada
 
-## Estrutura do Projeto
+# Estrutura do Projeto
 
-### Front-end
+## Front-end
+
+Tecnologias utilizadas:
 
 - React Native
 - Expo
 - JavaScript
+- React Native WebView
 
-Responsável pela interface, captura/seleção da imagem e envio ao back-end.
+Responsável pela:
 
-### Back-end
+- Interface do aplicativo
+- Captura ou seleção de imagens
+- Envio da imagem ao backend
+
+O front-end também exibe:
+
+- Pseudocódigo reconhecido
+- Python gerado
+- Saída da execução
+
+A renderização do código com cores é feita usando um arquivo HTML (`prism.html`) carregado dentro de uma **WebView**.
+
+## Back-end
+
+Tecnologias utilizadas:
 
 - Python
 - FastAPI
 - OpenCV (ArUco)
 
-O backend é dividido em duas responsabilidades:
+O backend é responsável por:
 
-- Leitura dos ArUcos da imagem
-- Conversão do pseudocódigo para Python
+1. Detectar os marcadores ArUco na imagem
+2. Reconstruir o pseudocódigo a partir dos marcadores
+3. Converter o pseudocódigo em Python
+4. Executar o código gerado
+5. Retornar o resultado para o aplicativo
 
-#### Arquivos principais
+# Arquivos principais
 
-- `main.py` → API FastAPI que recebe a imagem, detecta os ArUcos e executa o código
-- `conversor.py` → responsável por converter o pseudocódigo em Python
+`main.py`  
+API FastAPI responsável por:
 
-#### Fluxo
+- Receber a imagem enviada pelo aplicativo
+- Detectar os ArUcos
+- Reconstruir o pseudocódigo
+- Executar o Python gerado
+
+`conversor.py`  
+Arquivo responsável por converter o pseudocódigo em Python.
+
+`blocos.json`  
+Define o **mapeamento entre IDs dos marcadores ArUco e comandos do pseudocódigo**.
+
+# Pasta de blocos físicos
+
+O projeto possui uma pasta `blocos` com os materiais necessários para utilizar o sistema com **algoritmos físicos**.
+
+blocos
+├── blocos.pdf
+├── problemas.pdf
+├── blocos.json
+├── generator.py
+└── arucos
+
+### blocos.pdf
+
+PDF contendo **todos os blocos de pseudocódigo prontos para impressão**.
+Os blocos podem ser recortados e utilizados fisicamente para montar algoritmos.
+
+### problemas.pdf
+
+PDF contendo **exercícios de lógica de programação**.
+
+Os alunos podem resolver os problemas **montando algoritmos com os blocos físicos** e depois usar o aplicativo para verificar a solução.
+
+### blocos.json
+
+Arquivo que define o **mapeamento entre IDs de ArUco e palavras do pseudocódigo**.
+
+Exemplo simplificado:
+
+```json
+{
+  "0": "inicio",
+  "1": "fim",
+  "2": "mostre",
+  "3": "se",
+  "4": "senao",
+  "5": "repita"
+}
+```
+
+Esse arquivo também existe no **backend**, onde é utilizado durante o reconhecimento dos blocos.
+
+### generator.py
+
+Script responsável por **gerar automaticamente os marcadores ArUco utilizados no projeto**.
+
+Ele cria todas as imagens dentro da pasta `blocos/codes`.
+
+# Fluxo de funcionamento
 
 1. O front-end envia uma imagem para o endpoint `/convert`
 2. O backend usa **OpenCV ArUco** para detectar os marcadores
@@ -59,12 +143,95 @@ O backend é dividido em duas responsabilidades:
 - Código Python gerado
 - Saída da execução
 
-#### Exemplo de retorno da API
+# Conversão de pseudocódigo
+
+O arquivo `conversor.py` implementa um **parser simples baseado em tokens** responsável por:
+
+- Interpretar palavras do pseudocódigo
+- Gerar estruturas Python equivalentes
+- Controlar níveis de indentação
+- Converter expressões e operadores
+
+## Estruturas suportadas
+
+### Condicionais
+
+```
+se
+senao
+senao se
+fim se
+```
+
+### Repetição
+
+```
+repita
+fim repita
+enquanto
+fim enquanto
+```
+
+### Saída
+
+```
+mostre
+```
+
+### Variáveis
+
+```
+valor vale 10
+```
+
+# Syntax Highlight
+
+O aplicativo utiliza um arquivo HTML (`prism.html`) carregado em uma **WebView** para aplicar cores no código.
+
+O código é enviado do React Native para o HTML através de `postMessage`.
+
+Exemplo:
+
+```javascript
+document.addEventListener('message', e => {
+  document.getElementById('code').innerHTML = highlight(e.data)
+})
+```
+
+O highlight é feito com **expressões regulares**, colorindo:
+
+- Estruturas condicionais
+- Estruturas de repetição
+- Operadores
+- Números
+- Comandos de saída
+
+# Indentação automática
+
+O conversor implementa um sistema de **controle de níveis de bloco**, permitindo:
+
+- Indentação correta do pseudocódigo
+- Geração de Python com indentação válida
+
+O projeto utiliza:
+
+- 2 espaços para pseudocódigo
+- 4 espaços para Python
+
+Isso garante que o código gerado seja **executável imediatamente**.
+
+# Exemplo de retorno da API
 
 ```json
 {
-  "pseudocodigo": "inicio\nvalor vale 10\nvalor1 vale 5\nse valor > valor1\nmostre valor\nsenao\nmostre valor1\nfim se\nfim",
+  "pseudocodigo": "inicio\n  valor vale 10\n  valor1 vale 5\n  se valor > valor1\n    mostre valor\n  senao\n    mostre valor1\n  fim se\nfim",
   "python": "valor = 10\nvalor1 = 5\nif valor > valor1:\n    print(valor)\nelse:\n    print(valor1)",
   "saida": "10\n"
 }
 ```
+
+# Possíveis melhorias
+
+- [ ] Execução segura do Python (sandbox)
+- [ ] Reconhecimento de mais tipos de blocos ArUco
+- [ ] Interface visual para montagem do algoritmo
