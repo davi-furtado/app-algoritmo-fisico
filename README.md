@@ -229,9 +229,3 @@ Isso garante que o código gerado seja **executável imediatamente**.
   "saida": "10\n"
 }
 ```
-
-# Possíveis melhorias
-
-- [ ] Execução segura do Python (sandbox)
-- [ ] Reconhecimento de mais tipos de blocos ArUco
-- [ ] Interface visual para montagem do algoritmo
