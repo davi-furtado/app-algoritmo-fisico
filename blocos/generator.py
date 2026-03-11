@@ -6,7 +6,8 @@ import json
 with open('blocos.json') as f:
     blocos = json.load(f)
 
-os.makedirs('arucos', exist_ok=True)
+dir = 'codes'
+os.makedirs(dir, exist_ok=True)
 dictionary = aruco.getPredefinedDictionary(aruco.DICT_5X5_100)
 
 for id_str, texto in blocos.items():
@@ -34,4 +35,4 @@ for id_str, texto in blocos.items():
         case '<=': nome = 'menor_igual'
         case '>=': nome = 'maior_igual'
 
-    cv2.imwrite(f'arucos/{marker_id}_{nome}.png', marker)
+    cv2.imwrite(f'{dir}/{marker_id}_{nome}.png', marker)
