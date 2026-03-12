@@ -6,7 +6,7 @@ import json
 with open('blocos.json') as f:
     blocos = json.load(f)
 
-dir = 'codes'
+dir = 'arucos'
 os.makedirs(dir, exist_ok=True)
 dictionary = aruco.getPredefinedDictionary(aruco.DICT_5X5_100)
 
