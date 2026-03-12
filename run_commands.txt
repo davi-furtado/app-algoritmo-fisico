@@ -1,6 +1,5 @@
-cd frontend
+cd backend
+python main.py
 
-ollama pull phi3
-ollama run phi3
-
-npx expo start
+cd ../frontend
+npx expo start -c
