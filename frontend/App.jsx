@@ -17,7 +17,8 @@ import InsertPhotoBtn from './components/InsertPhotoBtn'
 import CodeBox from './components/CodeBox'
 import SegmentedToggle from './components/SegmentedToggle'
 
-const url = 'http://10.3.152.13:8000/convert'
+const ip = 'SEU_IP_AQUI'
+const url = `http://${ip}:8000/convert`
 
 export default function App() {
   const [image, setImage] = useState(null)
@@ -172,7 +173,7 @@ export default function App() {
       {saida !== '' && (
         <CodeBox
           title='Saída'
-          text={saida}
+          text={saida.trim()}
           maxHeight={240}
           monoFamily={monoFamily}
         />
