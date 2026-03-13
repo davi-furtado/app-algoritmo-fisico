@@ -107,13 +107,13 @@ export default function App() {
         {Platform.OS !== 'web' && (
           <InsertPhotoBtn
             texto='Câmera'
-            onPress={() => pickImage(true)}
+            onPress={pickImage}
             isMobile
           />
         )}
         <InsertPhotoBtn
           texto='Galeria'
-          onPress={() => pickImage(false)}
+          onPress={pickImage}
         />
       </View>
 

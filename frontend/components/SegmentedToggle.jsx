@@ -20,8 +20,8 @@ export default function SegmentedToggle({
   useEffect(() => {
     Animated.timing(anim, {
       toValue: index,
-      duration: 180,
-      easing: Easing.out(Easing.cubic),
+      duration: 90,
+      easing: Easing.out(Easing.quad),
       useNativeDriver: true
     }).start()
   }, [index, anim])
