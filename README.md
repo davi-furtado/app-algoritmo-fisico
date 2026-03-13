@@ -20,9 +20,8 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 - Conversão do pseudocódigo para Python no próprio backend
 - Execução do código gerado
 - Retorno do código e da saída
-- **Indentação automática do pseudocódigo**
-- **Indentação automática do Python gerado**
-- **Syntax Highlight do código exibido no aplicativo**
+- Indentação automática do pseudocódigo
+- Indentação automática do Python gerado
 - Visualização ampliada da imagem capturada
 
 # Estrutura do Projeto
@@ -48,8 +47,6 @@ O front-end também exibe:
 - Python gerado
 - Saída da execução
 
-A renderização do código com cores é feita usando um arquivo HTML (`prism.html`) carregado dentro de uma **WebView**.
-
 ## Back-end
 
 Tecnologias utilizadas:
@@ -66,9 +63,10 @@ O backend é responsável por:
 4. Executar o código gerado
 5. Retornar o resultado para o aplicativo
 
-# Arquivos principais
+### Arquivos principais
 
-`main.py`  
+#### `main.py`
+
 API FastAPI responsável por:
 
 - Receber a imagem enviada pelo aplicativo
@@ -76,11 +74,23 @@ API FastAPI responsável por:
 - Reconstruir o pseudocódigo
 - Executar o Python gerado
 
-`conversor.py`  
+#### `conversor.py`
+
 Arquivo responsável por converter o pseudocódigo em Python.
 
-`blocos.json`  
+#### `blocos.json`
+
 Define o **mapeamento entre IDs dos marcadores ArUco e comandos do pseudocódigo**.
+
+### Arquivos secundários
+
+#### `auto_return.py`
+
+API que tem um retorno único independente da imagem enviada. Para testar o frontend.
+
+#### `test.py` e `test.rest`
+
+Arquivos feitos para testar o backend de forma rápida, sem precisar rodar o front.
 
 # Pasta de blocos físicos
 
@@ -175,36 +185,14 @@ fim enquanto
 ### Saída
 
 ```
-mostre
+mostre _____
 ```
 
 ### Variáveis
 
 ```
-valor vale 10
+_____ vale __
 ```
-
-# Syntax Highlight
-
-O aplicativo utiliza um arquivo HTML (`prism.html`) carregado em uma **WebView** para aplicar cores no código.
-
-O código é enviado do React Native para o HTML através de `postMessage`.
-
-Exemplo:
-
-```javascript
-document.addEventListener('message', e => {
-  document.getElementById('code').innerHTML = highlight(e.data)
-})
-```
-
-O highlight é feito com **expressões regulares**, colorindo:
-
-- Estruturas condicionais
-- Estruturas de repetição
-- Operadores
-- Números
-- Comandos de saída
 
 # Indentação automática
 
