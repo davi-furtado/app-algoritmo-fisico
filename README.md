@@ -92,6 +92,16 @@ API que tem um retorno único independente da imagem enviada. Para testar o fron
 
 Arquivos feitos para testar o backend de forma rápida, sem precisar rodar o front.
 
+# Como rodar?
+
+1. Instale todas as dependências
+2. Abra um terminal na pasta `backend`
+3. Dê o comando `python main.py`
+4. Vá no arquivo `App.jsx` e coloque o seu **ip** na constante `url`
+5. Abra um segundo terminal na pasta `frontend`
+6. Dê o comando `npx expo start`
+7. Caso queira rodar na web, clique no link indicado, senão baixe o app *Expo Go* no seu celular e escaneie o QR code mostrado
+
 # Pasta de blocos físicos
 
 O projeto possui uma pasta `blocos` com os materiais necessários para utilizar o sistema com **algoritmos físicos**.
