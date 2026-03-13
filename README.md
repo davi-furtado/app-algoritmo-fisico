@@ -5,8 +5,6 @@
   <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E">
   <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54">
   <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi">
-  <img src="https://img.shields.io/badge/OpenCV-ArUco-white?style=for-the-badge&logo=opencv&logoColor=white">
-  <img src="https://img.shields.io/badge/expo-000020?style=for-the-badge&logo=expo&logoColor=white">
 </div>
 
 <p align="right">
