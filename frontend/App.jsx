@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'react'
 import {
   View,
   Text,
@@ -8,97 +9,111 @@ import {
   Modal,
   Platform
 } from 'react-native'
-
-import { useState, useRef } from 'react'
 import * as ImagePicker from 'expo-image-picker'
-import { WebView } from 'react-native-webview'
-import { Asset } from 'expo-asset'
+import { useFonts } from 'expo-font'
+
 import styles from './styles'
 import InsertPhotoBtn from './components/InsertPhotoBtn'
+import CodeBox from './components/CodeBox'
+import SegmentedToggle from './components/SegmentedToggle'
 
 const url = 'http://SEU_IP_AQUI:8000/convert'
 
 export default function App() {
   const [image, setImage] = useState(null)
+  const [json, setJson] = useState('')
   const [pseudocodigo, setPseudocodigo] = useState('')
   const [python, setPython] = useState('')
   const [saida, setSaida] = useState('')
+  const [view, setView] = useState('pseudo')
   const [loading, setLoading] = useState(false)
   const [zoom, setZoom] = useState(false)
 
-  const pseudoRef = useRef(null)
-  const pythonRef = useRef(null)
+  const [fontsLoaded] = useFonts({
+    JetBrainsMono: require('./assets/JetBrainsMonoNL-Bold.ttf')
+  })
 
-  const enviarImagem = async uri => {
+  const monoFamily = fontsLoaded
+    ? 'JetBrainsMono'
+    : Platform.select({
+        ios: 'Menlo',
+        android: 'monospace',
+        default: 'Courier'
+      })
+
+  const enviarImagem = useCallback(async uri => {
     setLoading(true)
-
-    const ext = uri.split('.').pop()
+    const ext = uri.split('.').pop()?.toLowerCase()
     const mime =
       {
         jpg: 'image/jpeg',
         jpeg: 'image/jpeg',
         png: 'image/png',
         webp: 'image/webp'
-      }[ext] || 'image/jpg'
-
+      }[ext] || 'image/jpeg'
     const form = new FormData()
-    form.append('file', {
-      uri,
-      name: `image.${ext}`,
-      type: mime
-    })
-
+    form.append('file', { uri, name: `image.${ext || 'jpg'}`, type: mime })
     try {
       const res = await fetch(url, {
         method: 'POST',
-        body: form
+        body: form,
+        headers: { Accept: 'application/json' }
       })
-
-      const json = await res.json()
-
-      if (json.erro) setSaida(json.erro)
-      else {
-        setPseudocodigo(json.pseudocodigo || '')
-        setPython(json.python || '')
-        setSaida(json.saida || '')
+      const data = await res.json()
+      setJson(JSON.stringify(data, null, 2))
+      if (data.erro) {
+        setSaida(data.erro || 'Erro desconhecido')
+        setPseudocodigo('')
+        setPython('')
+      } else {
+        setPseudocodigo(data.pseudocodigo || '')
+        setPython(data.python || '')
+        setSaida(data.saida || '')
       }
     } catch (e) {
       setSaida(`Erro ao conectar com o servidor: ${e.message}`)
+      setPseudocodigo('')
+      setPython('')
+    } finally {
+      setLoading(false)
     }
+  }, [])
 
-    setLoading(false)
-  }
+  const pickImage = useCallback(
+    async camera => {
+      const result = camera
+        ? await ImagePicker.launchCameraAsync({
+            quality: 1,
+            allowsEditing: false
+          })
+        : await ImagePicker.launchImageLibraryAsync({
+            quality: 1,
+            allowsEditing: false
+          })
+      if (!result.canceled && result.assets?.length) {
+        const uri = result.assets[0].uri
+        setImage(uri)
+        enviarImagem(uri)
+      }
+    },
+    [enviarImagem]
+  )
 
-  const pickImage = async camera => {
-    const result = camera
-      ? await ImagePicker.launchCameraAsync()
-      : await ImagePicker.launchImageLibraryAsync()
-
-    if (!result.canceled) {
-      const uri = result.assets[0].uri
-      setImage(uri)
-      enviarImagem(uri)
-    }
-  }
-
-  const prism = Asset.fromModule(require('./assets/prism.html')).uri
+  const code = view === 'pseudo' ? pseudocodigo || '' : python || ''
 
   return (
     <ScrollView style={styles.container}>
-      {/* Botões */}
       <View style={styles.row}>
         {Platform.OS !== 'web' && (
           <InsertPhotoBtn
             texto='Câmera'
-            onPress={pickImage}
-            isMobile={true}
+            onPress={() => pickImage(true)}
+            isMobile
           />
         )}
-
         <InsertPhotoBtn
           texto='Galeria'
-          onPress={pickImage}
-          isMobile={false}
+          onPress={() => pickImage(false)}
         />
       </View>
 
@@ -106,7 +121,7 @@ export default function App() {
         <>
           <TouchableOpacity
             onPress={() => setZoom(true)}
-            activeOpacity={0.6}
+            activeOpacity={0.7}
           >
             <Image
               source={{ uri: image }}
@@ -117,15 +132,14 @@ export default function App() {
           <Modal
             visible={zoom}
             animationType='fade'
+            onRequestClose={() => setZoom(false)}
+            transparent={false}
           >
-            <TouchableOpacity onPress={() => setZoom(false)}>
-              <Text style={styles.close}>Fechar</Text>
-            </TouchableOpacity>
-
             <ScrollView
               maximumZoomScale={5}
               minimumZoomScale={1}
               contentContainerStyle={styles.scroll}
+              style={{ flex: 1, backgroundColor: '#000' }}
             >
               <Image
                 source={{ uri: image }}
@@ -133,6 +147,16 @@ export default function App() {
                 resizeMode='contain'
               />
             </ScrollView>
+
+            <View style={styles.modalBtnWrapper}>
+              <TouchableOpacity
+                style={styles.modalBtn}
+                activeOpacity={0.8}
+                onPress={() => setZoom(false)}
+              >
+                <Text style={styles.modalBtnText}>Fechar</Text>
+              </TouchableOpacity>
+            </View>
           </Modal>
         </>
       )}
@@ -145,38 +169,36 @@ export default function App() {
         />
       )}
 
-      {saida !== '' && <Text style={styles.saida}>{saida}</Text>}
-
-      {/* Pseudocódigo */}
-      {pseudocodigo !== '' && (
-        <ScrollView
-          horizontal
-          style={styles.codeBox}
-        >
-          <WebView
-            ref={pseudoRef}
-            originWhitelist={['*']}
-            source={{ uri: prism }}
-            onLoadEnd={() => pseudoRef.current.postMessage(pseudocodigo)}
-            style={{ height: 220 }}
-          />
-        </ScrollView>
+      {saida !== '' && (
+        <CodeBox
+          title='Saída'
+          text={saida}
+          maxHeight={240}
+          monoFamily={monoFamily}
+        />
       )}
 
-      {/* Python */}
-      {python !== '' && (
-        <ScrollView
-          horizontal
-          style={styles.codeBox}
-        >
-          <WebView
-            ref={pythonRef}
-            originWhitelist={['*']}
-            source={{ uri: prism }}
-            onLoadEnd={() => pythonRef.current.postMessage(python)}
-            style={{ height: 320 }}
+      {(pseudocodigo !== '' || python !== '') && (
+        <>
+          <SegmentedToggle
+            options={[
+              { key: 'pseudo', label: 'Pseudocódigo' },
+              { key: 'python', label: 'Python' }
+            ]}
+            value={view}
+            onChange={setView}
+            style={styles.segmentedWrap}
+            textStyle={styles.segmentedText}
+            activeTextStyle={styles.segmentedTextActive}
           />
-        </ScrollView>
+
+          <CodeBox
+            title={view === 'pseudo' ? 'Pseudocódigo' : 'Python'}
+            text={code}
+            maxHeight={320}
+            monoFamily={monoFamily}
+          />
+        </>
       )}
     </ScrollView>
   )

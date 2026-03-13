@@ -5,12 +5,11 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000"
     },
     "ios": {
       "supportsTablet": true
@@ -29,11 +28,12 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Permitir acesso às fotos",
-          "cameraPermission": "Permitir acesso à câmera"
+          "photosPermission": "Permitir que o app acesse suas fotos.",
+          "cameraPermission": "Permitir que o app use a câmera."
         }
       ],
-      "expo-asset"
+      "expo-asset",
+      "expo-font"
     ]
   }
 }
