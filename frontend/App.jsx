@@ -17,7 +17,7 @@ import InsertPhotoBtn from './components/InsertPhotoBtn'
 import CodeBox from './components/CodeBox'
 import SegmentedToggle from './components/SegmentedToggle'
 
-const url = 'http://SEU_IP_AQUI:8000/convert'
+const url = 'http://10.3.152.13:8000/convert'
 
 export default function App() {
   const [image, setImage] = useState(null)
@@ -151,7 +151,7 @@ export default function App() {
             <View style={styles.modalBtnWrapper}>
               <TouchableOpacity
                 style={styles.modalBtn}
-                activeOpacity={0.8}
+                activeOpacity={0.7}
                 onPress={() => setZoom(false)}
               >
                 <Text style={styles.modalBtnText}>Fechar</Text>
