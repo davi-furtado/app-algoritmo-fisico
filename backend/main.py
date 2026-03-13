@@ -1,7 +1,16 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-import cv2, cv2.aruco as aruco
-import json, tempfile, io, sys
+from cv2 import imread, cvtColor, COLOR_BGR2GRAY
+from cv2.aruco import (
+    getPredefinedDictionary,
+    DICT_5X5_100,
+    DetectorParameters,
+    ArucoDetector
+)
+from json import load
+from tempfile import NamedTemporaryFile
+from io import StringIO
+from sys import stdout
 from os import remove, path
 from uvicorn import run
 from conversor import indentPseudo, toPython
@@ -17,13 +26,22 @@ app.add_middleware(
 )
 
 with open('blocos.json') as f:
-    blocos = json.load(f)
+    blocos = load(f)
 
-dictionary = aruco.getPredefinedDictionary(aruco.DICT_5X5_100)
-detector = aruco.ArucoDetector(dictionary)
+dictionary = getPredefinedDictionary(DICT_5X5_100)
+
+parameters = DetectorParameters()
+parameters.adaptiveThreshWinSizeMin = 3
+parameters.adaptiveThreshWinSizeMax = 23
+parameters.adaptiveThreshWinSizeStep = 10
+parameters.adaptiveThreshConstant = 7
+
+detector = ArucoDetector(dictionary, parameters)
+
 
 def ler_arucos(img):
-    corners, ids, _ = detector.detectMarkers(img)
+    gray = cvtColor(img, COLOR_BGR2GRAY)
+    corners, ids, _ = detector.detectMarkers(gray)
     if ids is None:
         return None
 
@@ -57,15 +75,16 @@ def ler_arucos(img):
         texto_final.append(' '.join(palavras))
     return '\n'.join(texto_final)
 
+
 @app.post('/convert')
 async def convert(file: UploadFile = File(...)):
     ext = path.splitext(file.filename)[1].lower()
 
-    with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as temp_img:
+    with NamedTemporaryFile(delete=False, suffix=ext) as temp_img:
         temp_path = temp_img.name
         temp_img.write(await file.read())
 
-    img = cv2.imread(temp_path)
+    img = imread(temp_path)
     if img is None:
         remove(temp_path)
         return {'erro': 'Imagem inválida ou corrompida.'}
@@ -81,13 +100,17 @@ async def convert(file: UploadFile = File(...)):
 
     python_code = toPython(pseudocodigo)
 
-    stdout_backup = sys.stdout
-    sys.stdout = io.StringIO()
+    stdout_backup = stdout
+    sys_stdout = StringIO()
+    import sys
+    sys.stdout = sys_stdout
+
     try:
         exec(python_code, {})
-        saida = sys.stdout.getvalue()
+        saida = sys_stdout.getvalue().strip()
     except Exception as e:
         return {'erro': f'Erro ao executar o código: {e}'}
+
     sys.stdout = stdout_backup
 
     remove(temp_path)
@@ -97,5 +120,6 @@ async def convert(file: UploadFile = File(...)):
         'python': python_code,
         'saida': saida
     }
+
 
 run(app, host='0.0.0.0')

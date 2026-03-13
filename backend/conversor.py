@@ -1,25 +1,7 @@
-KEYWORDS = {
-    'inicio': None,
-    'fim': None,
-    'mostre': 'print',
-    'se': 'if',
-    'senao se': 'elif',
-    'senao': 'else',
-    'fim se': None,
-    'repita': 'for',
-    'fim repita': None,
-    'enquanto': 'while',
-    'fim enquanto': None
-}
-
-BOOLEANS = {
-    'verdadeiro': 'True',
-    'falso': 'False'
-}
+from re import sub
 
 PSEUDO_INDENT_STEP = 2
 PYTHON_INDENT_STEP = 4
-
 
 def getKeyword(tokens):
     if len(tokens) >= 2 and tokens[0] == 'senao' and tokens[1] == 'se':
@@ -44,14 +26,14 @@ def indentLevels(linhas):
 
         niveis.append(max(nivel, 0))
 
-        if kw in {'se', 'repita', 'enquanto'}:
+        if kw in {'inicio', 'se', 'repita', 'enquanto'}:
             nivel += 1
 
     return niveis
 
 
 def indentPseudo(pseudocodigo):
-    linhas = [l.strip() for l in pseudocodigo.split('\n') if l.strip()]
+    linhas = pseudocodigo.split('\n')
     niveis = indentLevels(linhas)
 
     resultado = []
@@ -63,21 +45,17 @@ def indentPseudo(pseudocodigo):
 
 
 def exprToPython(expr):
-    tokens = expr.split()
-    result = []
-
-    for t in tokens:
-        if t in BOOLEANS:
-            result.append(BOOLEANS[t])
-        else:
-            result.append(t)
-
-    return ' '.join(result)
+    expr = sub(r'\bverdadeiro\b', 'True', expr)
+    expr = sub(r'\bfalso\b', 'False', expr)
+    return expr
 
 
 def toPython(pseudocodigo):
     linhas = [l.strip() for l in pseudocodigo.split('\n') if l.strip()]
-    niveis = indentLevels(linhas)
+    niveis = [max(n-1, 0) for n in indentLevels(linhas)]
+
+    linhas = linhas[1:-1]
+    niveis = niveis[1:-1]
 
     python_lines = []
 
@@ -85,47 +63,40 @@ def toPython(pseudocodigo):
         tokens = linha.split()
         kw, rest = getKeyword(tokens)
 
-        if kw not in KEYWORDS:
-            if 'vale' in linha:
-                var, valor = linha.split('vale', 1)
-                valor = exprToPython(valor.strip())
+        indent = ' ' * (nivel * PYTHON_INDENT_STEP)
 
-                python_lines.append(
-                    ' ' * (nivel * PYTHON_INDENT_STEP) +
-                    f'{var.strip()} = {valor}'
-                )
-            continue
-
-        py = KEYWORDS[kw]
-
-        if py is None:
-            continue
-
-        if py in {'if', 'elif', 'while'}:
-            cond = exprToPython(' '.join(rest))
+        if 'vale' in linha:
+            var, valor = linha.split('vale', 1)
             python_lines.append(
-                ' ' * (nivel * PYTHON_INDENT_STEP) +
-                f'{py} {cond}:'
+                f'{indent}{var.strip()} = {exprToPython(valor.strip())}'
             )
 
-        elif py == 'for':
-            expr = exprToPython(' '.join(rest))
+        elif kw == 'mostre':
             python_lines.append(
-                ' ' * (nivel * PYTHON_INDENT_STEP) +
-                f'for _ in range({expr}):'
+                f'{indent}print({exprToPython(' '.join(rest))})'
             )
 
-        elif py == 'else':
+        elif kw == 'se':
             python_lines.append(
-                ' ' * (nivel * PYTHON_INDENT_STEP) +
-                'else:'
+                f'{indent}if {exprToPython(' '.join(rest))}:'
             )
 
-        elif py == 'print':
-            conteudo = exprToPython(' '.join(rest))
+        elif kw == 'senao se':
             python_lines.append(
-                ' ' * (nivel * PYTHON_INDENT_STEP) +
-                f'print({conteudo})'
+                f'{indent}elif {exprToPython(' '.join(rest))}:'
+            )
+
+        elif kw == 'senao':
+            python_lines.append(f'{indent}else:')
+
+        elif kw == 'enquanto':
+            python_lines.append(
+                f'{indent}while {exprToPython(' '.join(rest))}:'
+            )
+
+        elif kw == 'repita':
+            python_lines.append(
+                f'{indent}for _ in range({exprToPython(' '.join(rest))}):'
             )
 
     return '\n'.join(python_lines)
