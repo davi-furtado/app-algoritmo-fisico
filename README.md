@@ -5,8 +5,6 @@
   <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E">
   <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54">
   <img src="https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi">
-  <img src="https://img.shields.io/badge/OpenCV-ArUco-green?style=for-the-badge&logo=opencv&logoColor=white">
-  <img src="https://img.shields.io/badge/expo-000020?style=for-the-badge&logo=expo&logoColor=white">
 </div>
 
 <p align="right">
@@ -91,6 +89,16 @@ API que tem um retorno único independente da imagem enviada. Para testar o fron
 #### `test.py` e `test.rest`
 
 Arquivos feitos para testar o backend de forma rápida, sem precisar rodar o front.
+
+# Como rodar?
+
+1. Instale todas as dependências
+2. Abra um terminal na pasta `backend`
+3. Dê o comando `python main.py`
+4. Vá no arquivo `App.jsx` e coloque o seu **ip** na constante `url`
+5. Abra um segundo terminal na pasta `frontend`
+6. Dê o comando `npx expo start`
+7. Caso queira rodar na web, clique no link indicado, senão baixe o app *Expo Go* no seu celular e escaneie o QR code mostrado
 
 # Pasta de blocos físicos
 
