@@ -1,5 +1,0 @@
-cd backend
-python main.py
-
-cd ../frontend
-npx expo start -c
