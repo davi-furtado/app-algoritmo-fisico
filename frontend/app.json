@@ -9,17 +9,19 @@
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#000"
+      "backgroundColor": "#000000"
     },
+    "platforms": ["ios", "android", "web"],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#000"
+        "backgroundColor": "#000000"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdge": true
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
@@ -32,8 +34,8 @@
           "cameraPermission": "Permitir que o app use a câmera."
         }
       ],
-      "expo-asset",
       "expo-font"
     ]
   }
 }
+
