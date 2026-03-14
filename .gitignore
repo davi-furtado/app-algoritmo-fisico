@@ -1,4 +1,3 @@
-.venv/
 backend/__pycache__/
 frontend/.expo/
 frontend/node_modules/
