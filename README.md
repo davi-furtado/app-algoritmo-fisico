@@ -222,6 +222,6 @@ Isso garante que o código gerado seja **executável imediatamente**.
 {
   "pseudocodigo": "inicio\n  valor vale 10\n  valor1 vale 5\n  se valor > valor1\n    mostre valor\n  senao\n    mostre valor1\n  fim se\nfim",
   "python": "valor = 10\nvalor1 = 5\nif valor > valor1:\n    print(valor)\nelse:\n    print(valor1)",
-  "saida": "10\n"
+  "saida": "10"
 }
 ```
