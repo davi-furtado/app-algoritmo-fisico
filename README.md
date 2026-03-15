@@ -90,6 +90,10 @@ API que tem um retorno único independente da imagem enviada. Para testar o fron
 
 Arquivos feitos para testar o backend de forma rápida, sem precisar rodar o front.
 
+#### `requirements.txt`
+
+Arquivo com todas as bibliotecas usadas
+
 # Como rodar?
 
 1. Abra um terminal na pasta `backend`
@@ -105,25 +109,27 @@ Arquivos feitos para testar o backend de forma rápida, sem precisar rodar o fro
 
 O projeto possui uma pasta `blocos` com os materiais necessários para utilizar o sistema com **algoritmos físicos**.
 
+```tree
 blocos
 ├── blocos.pdf
 ├── problemas.pdf
 ├── blocos.json
 ├── generator.py
 └── arucos
+```
 
-### blocos.pdf
+### `blocos.pdf`
 
 PDF contendo **todos os blocos de pseudocódigo prontos para impressão**.
 Os blocos podem ser recortados e utilizados fisicamente para montar algoritmos.
 
-### problemas.pdf
+### `problemas.pdf`
 
 PDF contendo **exercícios de lógica de programação**.
 
 Os alunos podem resolver os problemas **montando algoritmos com os blocos físicos** e depois usar o aplicativo para verificar a solução.
 
-### blocos.json
+### `blocos.json`
 
 Arquivo que define o **mapeamento entre IDs de ArUco e palavras do pseudocódigo**.
 
@@ -142,7 +148,7 @@ Exemplo simplificado:
 
 Esse arquivo também existe no **backend**, onde é utilizado durante o reconhecimento dos blocos.
 
-### generator.py
+### `generator.py`
 
 Script responsável por **gerar automaticamente os marcadores ArUco utilizados no projeto**.
 
@@ -157,10 +163,9 @@ Ele cria todas as imagens dentro da pasta `blocos/codes`.
 5. O pseudocódigo é transformado em **código Python válido**
 6. O backend executa o código usando `exec`
 7. A API retorna:
-
-- Pseudocódigo reconhecido
-- Código Python gerado
-- Saída da execução
+  - Pseudocódigo reconhecido
+  - Código Python gerado
+  - Saída da execução
 
 # Conversão de pseudocódigo
 
