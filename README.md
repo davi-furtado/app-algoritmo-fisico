@@ -109,27 +109,18 @@ Arquivo com todas as bibliotecas usadas
 
 O projeto possui uma pasta `blocos` com os materiais necessários para utilizar o sistema com **algoritmos físicos**.
 
-```tree
-blocos
-├── blocos.pdf
-├── problemas.pdf
-├── blocos.json
-├── generator.py
-└── arucos
-```
-
-### `blocos.pdf`
+## `blocos.pdf`
 
 PDF contendo **todos os blocos de pseudocódigo prontos para impressão**.
 Os blocos podem ser recortados e utilizados fisicamente para montar algoritmos.
 
-### `problemas.pdf`
+## `problemas.pdf`
 
 PDF contendo **exercícios de lógica de programação**.
 
 Os alunos podem resolver os problemas **montando algoritmos com os blocos físicos** e depois usar o aplicativo para verificar a solução.
 
-### `blocos.json`
+## `blocos.json`
 
 Arquivo que define o **mapeamento entre IDs de ArUco e palavras do pseudocódigo**.
 
@@ -148,7 +139,7 @@ Exemplo simplificado:
 
 Esse arquivo também existe no **backend**, onde é utilizado durante o reconhecimento dos blocos.
 
-### `generator.py`
+## `generator.py`
 
 Script responsável por **gerar automaticamente os marcadores ArUco utilizados no projeto**.
 
