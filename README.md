@@ -92,13 +92,14 @@ Arquivos feitos para testar o backend de forma rápida, sem precisar rodar o fro
 
 # Como rodar?
 
-1. Instale todas as dependências
-2. Abra um terminal na pasta `backend`
+1. Abra um terminal na pasta `backend`
+2. Dê o conando `pip install -r requirements.txt`
 3. Dê o comando `python main.py`
 4. Vá no arquivo `App.jsx` e coloque o seu **ip** na constante `ip`
 5. Abra um segundo terminal na pasta `frontend`
-6. Dê o comando `npx expo start`
-7. Caso queira rodar na web, clique no link indicado, senão baixe o app _Expo Go_ no seu celular e escaneie o QR code mostrado
+6. Dê o comando `npm install`
+7. Dê o comando `npx expo start`
+8. Caso queira rodar na web, clique no link indicado, senão baixe o app _Expo Go_ no seu celular e escaneie o QR code mostrado
 
 # Pasta de blocos físicos
 
