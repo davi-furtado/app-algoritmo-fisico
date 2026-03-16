@@ -25,16 +25,16 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 # Estrutura do Projeto
 
 ```tree
-./app-algoritmo-fisico/
-├── backend/
+.\app-algoritmo-fisico\
+├── backend\
 │   ├── auto_return.py
 │   ├── blocos.json
 │   ├── conversor.py
 │   ├── main.py
 │   ├── requirements.txt
 │   └── test.py
-├── blocos/
-│   ├── arucos/
+├── blocos\
+│   ├── arucos\
 │   │   ├── 0_0.png
 │   │   ├── 1_1.png
 │   │   ├── ...
@@ -44,15 +44,15 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 │   ├── blocos.pdf
 │   ├── generator.py
 │   └── problemas.pdf
-├── frontend/
-│   ├── assets/
-│   │   ├── images/
+├── frontend\
+│   ├── assets\
+│   │   ├── images\
 │   │   │   ├── adaptive-icon.png
 │   │   │   ├── favicon.png
 │   │   │   ├── icon.png
 │   │   │   └── splash-icon.png
 │   │   └── JetBrainsMonoNL-Bold.ttf
-│   ├── components/
+│   ├── components\
 │   ├── app.json
 │   ├── App.jsx
 │   ├── index.js
