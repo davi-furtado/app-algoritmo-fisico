@@ -192,14 +192,7 @@ Ele cria todas as imagens dentro da pasta `blocos/codes`.
 4. O pseudocódigo gerado é enviado para `toPython()` (`conversor.py`)
 5. O pseudocódigo é transformado em **código Python válido**
 6. O backend executa o código usando `exec`
-<<<<<<< HEAD
 7. A API retorna: pseudocódigo reconhecido, código Python gerado e saída da execução
-=======
-7. A API retorna:
-  - Pseudocódigo reconhecido
-  - Código Python gerado
-  - Saída da execução
->>>>>>> f842aae49131ef8d7631d0b105073681718084b7
 
 # Conversão de pseudocódigo
 
