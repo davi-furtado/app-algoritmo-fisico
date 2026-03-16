@@ -27,7 +27,7 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 <details>
   <sumary>tree</sumary>
 
-```tree
+  ```
 app-algoritmo-fisico/
 ├── backend/
 │   ├── auto_return.py
