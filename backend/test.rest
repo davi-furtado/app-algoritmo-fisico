@@ -1,8 +1,0 @@
-POST http://localhost:8000/convert
-Content-Type: multipart/form-data; boundary=boundary
-
---boundary
-Content-Disposition: form-data; name="file"; filename='imagem.jpg'; Content-Type: image/jpeg
-
-< CAMINHO_DA_IMAGEM_AQUI
---boundary--

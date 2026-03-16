@@ -24,6 +24,50 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 
 # Estrutura do Projeto
 
+<details>
+  <sumary>tree</sumary>
+
+```tree
+app-algoritmo-fisico/
+├── backend/
+│   ├── auto_return.py
+│   ├── blocos.json
+│   ├── conversor.py
+│   ├── main.py
+│   ├── requirements.txt
+│   └── test.py
+├── blocos/
+│   ├── arucos/
+│   │   ├── 0_0.png
+│   │   ├── 1_1.png
+│   │   ├── ...
+│   │   ├── 50_enquanto.png
+│   │   └── 51_fim_enquanto.png
+│   ├── blocos.json
+│   ├── blocos.pdf
+│   ├── generator.py
+│   └── problemas.pdf
+├── frontend/
+│   ├── assets/
+│   │   ├── images/
+│   │   │   ├── adaptive-icon.png
+│   │   │   ├── favicon.png
+│   │   │   ├── icon.png
+│   │   │   └── splash-icon.png
+│   │   └── JetBrainsMonoNL-Bold.ttf
+│   ├── components/
+│   ├── app.json
+│   ├── App.jsx
+│   ├── index.js
+│   ├── package-lock.json
+│   ├── package.json
+│   └── styles.js
+├── .gitignore
+└── README.md
+```
+
+</details>
+
 ## Front-end
 
 Tecnologias utilizadas:
@@ -154,9 +198,10 @@ Ele cria todas as imagens dentro da pasta `blocos/codes`.
 5. O pseudocódigo é transformado em **código Python válido**
 6. O backend executa o código usando `exec`
 7. A API retorna:
-  - Pseudocódigo reconhecido
-  - Código Python gerado
-  - Saída da execução
+
+- Pseudocódigo reconhecido
+- Código Python gerado
+- Saída da execução
 
 # Conversão de pseudocódigo
 
