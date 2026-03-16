@@ -24,10 +24,7 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 
 # Estrutura do Projeto
 
-<details>
-  <sumary>tree</sumary>
-
-  ```
+```tree
 app-algoritmo-fisico/
 ├── backend/
 │   ├── auto_return.py
@@ -198,10 +195,9 @@ Ele cria todas as imagens dentro da pasta `blocos/codes`.
 5. O pseudocódigo é transformado em **código Python válido**
 6. O backend executa o código usando `exec`
 7. A API retorna:
-
-- Pseudocódigo reconhecido
-- Código Python gerado
-- Saída da execução
+  - Pseudocódigo reconhecido
+  - Código Python gerado
+  - Saída da execução
 
 # Conversão de pseudocódigo
 
