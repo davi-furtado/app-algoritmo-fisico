@@ -235,7 +235,7 @@ mostre _____
 _____ vale __
 ```
 
-# Indentação automática
+## Indentação automática
 
 O conversor implementa um sistema de **controle de níveis de bloco**, permitindo:
 
