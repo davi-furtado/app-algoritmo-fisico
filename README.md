@@ -24,8 +24,8 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 
 # Estrutura do Projeto
 
-```tree
-app-algoritmo-fisico/
+```
+./app-algoritmo-fisico/
 ├── backend/
 │   ├── auto_return.py
 │   ├── blocos.json
