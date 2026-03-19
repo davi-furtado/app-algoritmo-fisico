@@ -9,3 +9,7 @@ with open(img, 'rb') as file:
 
 saida = response.json()
 print(saida)
+with open('saida.py', 'w') as file: file.write(saida['python'])
+with open('saida.json', 'w') as file:
+    from json import dump
+    dump(file, saida)
