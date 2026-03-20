@@ -1,7 +1,7 @@
 from re import sub
 
-PSEUDO_INDENT_STEP = 2
-PYTHON_INDENT_STEP = 4
+PSEUDO_INDENT = 2
+PYTHON_INDENT = 4
 
 def getKeyword(tokens):
     if len(tokens) >= 2 and tokens[0] == 'senao' and tokens[1] == 'se':
@@ -13,35 +13,35 @@ def getKeyword(tokens):
     return tokens[0], tokens[1:]
 
 
-def indentLevels(linhas):
-    nivel = 0
-    niveis = []
+def indentLevels(lines):
+    level = 0
+    levels = []
 
-    for linha in linhas:
-        tokens = linha.split()
+    for line in lines:
+        tokens = line.split()
         kw, _ = getKeyword(tokens)
 
         if kw in {'fim se', 'fim repita', 'fim enquanto', 'fim'}:
-            nivel -= 1
+            level -= 1
 
-        niveis.append(max(nivel, 0))
+        levels.append(max(level, 0))
 
         if kw in {'inicio', 'se', 'repita', 'enquanto'}:
-            nivel += 1
+            level += 1
 
-    return niveis
+    return levels
 
 
-def indentPseudo(pseudocodigo):
-    linhas = pseudocodigo.split('\n')
-    niveis = indentLevels(linhas)
+def indentPseudo(pseudocode):
+    lines = pseudocode.split('\n')
+    levels = indentLevels(lines)
 
-    resultado = []
+    result = []
 
-    for linha, nivel in zip(linhas, niveis):
-        resultado.append(' ' * (nivel * PSEUDO_INDENT_STEP) + linha)
+    for line, level in zip(lines, levels):
+        result.append(' ' * (level * PSEUDO_INDENT) + line)
 
-    return '\n'.join(resultado)
+    return '\n'.join(result)
 
 
 def exprToPython(expr):
@@ -50,40 +50,37 @@ def exprToPython(expr):
     return expr
 
 
-def toPython(pseudocodigo):
-    linhas = [l.strip() for l in pseudocodigo.split('\n') if l.strip()]
-    niveis = [max(n-1, 0) for n in indentLevels(linhas)]
-
-    linhas = linhas[1:-1]
-    niveis = niveis[1:-1]
+def toPython(pseudocode):
+    lines = [l.strip() for l in pseudocode.split('\n') if l.strip()]
+    levels = [max(n-1, 0) for n in indentLevels(lines)]
 
     python_lines = []
 
-    for linha, nivel in zip(linhas, niveis):
-        tokens = linha.split()
-        kw, rest = getKeyword(tokens)
+    for line, level in zip(lines, levels):
+        tokens = line.split()
+        kw, args = getKeyword(tokens)
 
-        indent = ' ' * (nivel * PYTHON_INDENT_STEP)
+        indent = ' ' * (level * PYTHON_INDENT)
 
-        if 'vale' in linha:
-            var, valor = linha.split('vale', 1)
+        if 'vale' in line:
+            var, valor = line.split('vale', 1)
             python_lines.append(
                 f'{indent}{var.strip()} = {exprToPython(valor.strip())}'
             )
 
         elif kw == 'mostre':
             python_lines.append(
-                f'{indent}print({exprToPython(' '.join(rest))})'
+                f'{indent}print({exprToPython(' '.join(args))})'
             )
 
         elif kw == 'se':
             python_lines.append(
-                f'{indent}if {exprToPython(' '.join(rest))}:'
+                f'{indent}if {exprToPython(' '.join(args))}:'
             )
 
         elif kw == 'senao se':
             python_lines.append(
-                f'{indent}elif {exprToPython(' '.join(rest))}:'
+                f'{indent}elif {exprToPython(' '.join(args))}:'
             )
 
         elif kw == 'senao':
@@ -91,12 +88,12 @@ def toPython(pseudocodigo):
 
         elif kw == 'enquanto':
             python_lines.append(
-                f'{indent}while {exprToPython(' '.join(rest))}:'
+                f'{indent}while {exprToPython(' '.join(args))}:'
             )
 
         elif kw == 'repita':
             python_lines.append(
-                f'{indent}for _ in range({exprToPython(' '.join(rest))}):'
+                f'{indent}for _ in range({exprToPython(' '.join(args))}):'
             )
 
     return '\n'.join(python_lines)

@@ -4,13 +4,13 @@ import os
 import json
 
 with open('blocos.json') as f:
-    blocos = json.load(f)
+    blocks = json.load(f)
 
-dir = 'arucos'
-os.makedirs(dir, exist_ok=True)
+directory = 'arucos'
+os.makedirs(directory, exist_ok=True)
 dictionary = aruco.getPredefinedDictionary(aruco.DICT_5X5_100)
 
-for id_str, texto in blocos.items():
+for id_str, text in blocks.items():
     marker_id = int(id_str)
 
     marker = aruco.generateImageMarker(dictionary, marker_id, 300)
@@ -22,17 +22,17 @@ for id_str, texto in blocos.items():
         value=255
     )
 
-    nome = texto.replace(' ', '_')
-    match nome:
-        case '+': nome = 'mais'
-        case '-': nome = 'menos'
-        case '*': nome = 'vezes'
-        case '/': nome = 'dividido'
-        case '=': nome = 'igual'
-        case '!=': nome = 'diferente'
-        case '<': nome = 'menor'
-        case '>': nome = 'maior'
-        case '<=': nome = 'menor_igual'
-        case '>=': nome = 'maior_igual'
+    name = text.replace(' ', '_')
+    match name:
+        case '+': name = 'mais'
+        case '-': name = 'menos'
+        case '*': name = 'vezes'
+        case '/': name = 'dividido'
+        case '=': name = 'igual'
+        case '!=': name = 'diferente'
+        case '<': name = 'menor'
+        case '>': name = 'maior'
+        case '<=': name = 'menor_igual'
+        case '>=': name = 'maior_igual'
 
-    cv2.imwrite(f'{dir}/{marker_id}_{nome}.png', marker)
+    cv2.imwrite(f'{directory}/{marker_id}_{name}.png', marker)

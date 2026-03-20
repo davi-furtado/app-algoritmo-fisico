@@ -7,5 +7,5 @@ with open(img, 'rb') as file:
     files = {'file': file}
     response = post(url, files=files)
 
-saida = response.json()
-print(saida)
+output = response.json()
+print(output)

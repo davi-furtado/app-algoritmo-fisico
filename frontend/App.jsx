@@ -23,9 +23,9 @@ const url = `http://${ip}:8000/convert`
 export default function App() {
   const [image, setImage] = useState(null)
   const [json, setJson] = useState('')
-  const [pseudocodigo, setPseudocodigo] = useState('')
+  const [pseudocode, setPseudocode] = useState('')
   const [python, setPython] = useState('')
-  const [saida, setSaida] = useState('')
+  const [output, setOutput] = useState('')
   const [view, setView] = useState('pseudo')
   const [loading, setLoading] = useState(false)
   const [zoom, setZoom] = useState(false)
@@ -42,7 +42,7 @@ export default function App() {
         default: 'Courier'
       })
 
-  const enviarImagem = useCallback(async uri => {
+  const sendImage = useCallback(async uri => {
     setLoading(true)
     const ext = uri.split('.').pop()?.toLowerCase()
     const mime =
@@ -62,18 +62,18 @@ export default function App() {
       })
       const data = await res.json()
       setJson(JSON.stringify(data, null, 2))
-      if (data.erro) {
-        setSaida(data.erro || 'Erro desconhecido')
-        setPseudocodigo('')
+      if (data.error) {
+        setOutput(data.error || 'Erro desconhecido')
+        setPseudocode('')
         setPython('')
       } else {
-        setPseudocodigo(data.pseudocodigo || '')
+        setPseudocode(data.pseudocode || '')
         setPython(data.python || '')
-        setSaida(data.saida || '')
+        setOutput(data.output || '')
       }
     } catch (e) {
-      setSaida(`Erro ao conectar com o servidor: ${e.message}`)
-      setPseudocodigo('')
+      setOutput(`Erro ao conectar com o servidor: ${e.message}`)
+      setPseudocode('')
       setPython('')
     } finally {
       setLoading(false)
@@ -94,26 +94,26 @@ export default function App() {
       if (!result.canceled && result.assets?.length) {
         const uri = result.assets[0].uri
         setImage(uri)
-        enviarImagem(uri)
+        sendImage(uri)
       }
     },
-    [enviarImagem]
+    [sendImage]
   )
 
-  const code = view === 'pseudo' ? pseudocodigo || '' : python || ''
+  const code = view === 'pseudo' ? pseudocode || '' : python || ''
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.row}>
         {Platform.OS !== 'web' && (
           <InsertPhotoBtn
-            texto='Câmera'
+            text='Câmera'
             onPress={pickImage}
             isMobile
           />
         )}
         <InsertPhotoBtn
-          texto='Galeria'
+          text='Galeria'
           onPress={pickImage}
         />
       </View>
@@ -170,16 +170,16 @@ export default function App() {
         />
       )}
 
-      {saida !== '' && (
+      {output !== '' && (
         <CodeBox
           title='Saída'
-          text={saida.trim()}
+          text={output.trim()}
           maxHeight={240}
           monoFamily={monoFamily}
         />
       )}
 
-      {(pseudocodigo !== '' || python !== '') && (
+      {(pseudocode !== '' || python !== '') && (
         <>
           <SegmentedToggle
             options={[

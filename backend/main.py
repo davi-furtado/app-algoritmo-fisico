@@ -39,41 +39,41 @@ parameters.adaptiveThreshConstant = 7
 detector = ArucoDetector(dictionary, parameters)
 
 
-def ler_arucos(img):
+def read_arucos(img):
     gray = cvtColor(img, COLOR_BGR2GRAY)
     corners, ids, _ = detector.detectMarkers(gray)
     if ids is None:
         return None
 
-    dados = []
+    data = []
     for i, marker_id in enumerate(ids):
         c = corners[i][0]
         x = int(c[:, 0].mean())
         y = int(c[:, 1].mean())
-        dados.append((x, y, marker_id[0]))
+        data.append((x, y, marker_id[0]))
 
-    dados.sort(key=lambda t: (t[1], t[0]))
-    linhas = []
+    data.sort(key=lambda t: (t[1], t[0]))
+    lines = []
     y_threshold = 40
-    for x, y, marker_id in dados:
-        for linha in linhas:
-            if abs(linha['y'] - y) < y_threshold:
-                linha['itens'].append((x, marker_id))
+    for x, y, marker_id in data:
+        for line in lines:
+            if abs(line['y'] - y) < y_threshold:
+                line['items'].append((x, marker_id))
                 break
         else:
-            linhas.append({'y': y, 'itens': [(x, marker_id)]})
+            lines.append({'y': y, 'items': [(x, marker_id)]})
 
-    linhas.sort(key=lambda l: l['y'])
-    texto_final = []
-    for linha in linhas:
-        linha['itens'].sort(key=lambda t: t[0])
-        palavras = []
-        for x, marker_id in linha['itens']:
-            chave = str(marker_id)
-            if chave in blocos:
-                palavras.append(blocos[chave])
-        texto_final.append(' '.join(palavras))
-    return '\n'.join(texto_final)
+    lines.sort(key=lambda l: l['y'])
+    final_text = []
+    for line in lines:
+        line['items'].sort(key=lambda t: t[0])
+        words = []
+        for x, marker_id in line['items']:
+            key = str(marker_id)
+            if key in blocos:
+                words.append(blocos[key])
+        final_text.append(' '.join(words))
+    return '\n'.join(final_text)
 
 
 @app.post('/convert')
@@ -87,18 +87,18 @@ async def convert(file: UploadFile = File(...)):
     img = imread(temp_path)
     if img is None:
         remove(temp_path)
-        return {'erro': 'Imagem inválida ou corrompida.'}
+        return {'error': 'Imagem inválida ou corrompida.'}
 
     try:
-        pseudocodigo = ler_arucos(img)
-        if pseudocodigo is None or pseudocodigo.strip() == '':
+        pseudocode = read_arucos(img)
+        if pseudocode is None or pseudocode.strip() == '':
             remove(temp_path)
-            return {'erro': 'Nenhum código detectado na imagem.'}
+            return {'error': 'Nenhum código detectado na imagem.'}
     except Exception as e:
         remove(temp_path)
-        return {'erro': f'Erro ao processar a imagem: {str(e)}'}
+        return {'error': f'Erro ao processar a imagem: {str(e)}'}
 
-    python_code = toPython(pseudocodigo)
+    python_code = toPython(pseudocode)
 
     stdout_backup = stdout
     sys_stdout = StringIO()
@@ -107,17 +107,17 @@ async def convert(file: UploadFile = File(...)):
 
     try:
         exec(python_code, {})
-        saida = sys_stdout.getvalue().strip()
+        output = sys_stdout.getvalue().strip()
     except Exception as e:
-        return {'erro': f'Erro ao executar o código: {e}'}
+        return {'error': f'Erro ao executar o código: {e}'}
 
     sys.stdout = stdout_backup
 
     remove(temp_path)
 
     return {
-        'saida': saida,
-        'pseudocodigo': indentPseudo(pseudocodigo),
+        'output': output,
+        'pseudocode': indentPseudo(pseudocode),
         'python': python_code
     }
 

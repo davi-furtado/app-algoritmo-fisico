@@ -26,12 +26,12 @@ async def convert(file: UploadFile = File(...)):
 
     remove(temp_path)
     if img is None:
-        return {'erro': 'Imagem inválida ou corrompida.'}
+        return {'error': 'Imagem inválida ou corrompida.'}
     
     return {
-        'pseudocodigo': 'inicio\n  se 4 > 2\n    mostre 0\n  fim se\nfim',
-        'python': 'if 4 > 2:\n    print(0)',
-        'saida': '0'
+        'output': '0',
+        'pseudocode': 'inicio\n  se 4 > 2\n    mostre 0\n  fim se\nfim',
+        'python': 'if 4 > 2:\n    print(0)'
     }
 
 run(app, host='0.0.0.0')
