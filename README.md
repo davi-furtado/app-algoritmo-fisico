@@ -146,8 +146,8 @@ Arquivos feitos para testar o backend de forma rápida, sem precisar rodar o fro
 
 #### `multiple_test.py`
 
-Lê uma lista de caminhos de imagens e joga elas para a api
-Retorna um arquivo `results.json` que contém os testes e seus retornos
+Lê uma lista de caminhos de imagens e joga elas para a api.
+Retorna um arquivo `results.json` que contém os testes e seus retornos.
 
 #### `requirements.txt`
 
