@@ -116,9 +116,9 @@ async def convert(file: UploadFile = File(...)):
     remove(temp_path)
 
     return {
+        'saida': saida,
         'pseudocodigo': indentPseudo(pseudocodigo),
-        'python': python_code,
-        'saida': saida
+        'python': python_code
     }
 
 

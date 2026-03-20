@@ -25,41 +25,56 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 # Estrutura do Projeto
 
 ```
-./app-algoritmo-fisico/
+app-algoritmo-fisico/
+│
+├── .gitignore
 ├── backend/
 │   ├── auto_return.py
 │   ├── blocos.json
 │   ├── conversor.py
 │   ├── main.py
+│   ├── multiple_test.py
 │   ├── requirements.txt
 │   └── test.py
+│
 ├── blocos/
 │   ├── arucos/
-│   │   ├── 0_0.png
-│   │   ├── 1_1.png
 │   │   ├── ...
-│   │   ├── 50_enquanto.png
-│   │   └── 51_fim_enquanto.png
+│   │   ├── 23_inicio.png
+│   │   ├── 24_fim.png
+│   │   ├── 25_mostre.png
+│   │   ├── 26_vale.png
+│   │   ├── 27_quantidade.png
+│   │   ├── 28_valor.png
+│   │   └── ...
+│   │
 │   ├── blocos.json
 │   ├── blocos.pdf
 │   ├── generator.py
 │   └── problemas.pdf
+│
 ├── frontend/
+│   ├── app.json
+│   ├── App.jsx
 │   ├── assets/
 │   │   ├── images/
 │   │   │   ├── adaptive-icon.png
 │   │   │   ├── favicon.png
 │   │   │   ├── icon.png
 │   │   │   └── splash-icon.png
+│   │   │
 │   │   └── JetBrainsMonoNL-Bold.ttf
+│   │
 │   ├── components/
-│   ├── app.json
-│   ├── App.jsx
+│   │   ├── CodeBox.jsx
+│   │   ├── InsertPhotoBtn.jsx
+│   │   └── SegmentedToggle.jsx
+│   │
 │   ├── index.js
 │   ├── package-lock.json
 │   ├── package.json
 │   └── styles.js
-├── .gitignore
+│
 └── README.md
 ```
 
@@ -125,9 +140,14 @@ Define o **mapeamento entre IDs dos marcadores ArUco e comandos do pseudocódigo
 
 API que tem um retorno único independente da imagem enviada. Para testar o frontend.
 
-#### `test.py` e `test.rest`
+#### `test.py`
 
 Arquivos feitos para testar o backend de forma rápida, sem precisar rodar o front.
+
+#### `multiple_test.py`
+
+Lê uma lista de caminhos de imagens e joga elas para a api
+Retorna um arquivo `results.json` que contém os testes e seus retornos
 
 #### `requirements.txt`
 
@@ -167,12 +187,14 @@ Exemplo simplificado:
 
 ```json
 {
-  "0": "inicio",
-  "1": "fim",
-  "2": "mostre",
-  "3": "se",
-  "4": "senao",
-  "5": "repita"
+  ...
+  "23": "inicio",
+  "24": "fim",
+  "25": "mostre",
+  "26": "vale",
+  "27": "quantidade",
+  "28": "valor",
+  ...
 }
 ```
 
@@ -253,8 +275,8 @@ Isso garante que o código gerado seja **executável imediatamente**.
 
 ```json
 {
+  "saida": "10",
   "pseudocodigo": "inicio\n  valor vale 10\n  valor1 vale 5\n  se valor > valor1\n    mostre valor\n  senao\n    mostre valor1\n  fim se\nfim",
-  "python": "valor = 10\nvalor1 = 5\nif valor > valor1:\n    print(valor)\nelse:\n    print(valor1)",
-  "saida": "10"
+  "python": "valor = 10\nvalor1 = 5\nif valor > valor1:\n    print(valor)\nelse:\n    print(valor1)"
 }
 ```
