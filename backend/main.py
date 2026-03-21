@@ -12,7 +12,6 @@ from tempfile import NamedTemporaryFile
 from io import StringIO
 from sys import stdout
 from os import remove, path
-from uvicorn import run
 from conversor import indentPseudo, toPython
 
 app = FastAPI()
@@ -122,4 +121,6 @@ async def convert(file: UploadFile = File(...)):
     }
 
 
-run(app, host='0.0.0.0')
+if __name__ == '__main__':
+    from uvicorn import run
+    run(app, host='0.0.0.0')
