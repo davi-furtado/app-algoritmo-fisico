@@ -85,7 +85,6 @@ Tecnologias utilizadas:
 - React Native
 - Expo
 - JavaScript
-- React Native WebView
 
 Responsável pela:
 
