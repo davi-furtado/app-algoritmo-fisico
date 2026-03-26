@@ -1,4 +1,5 @@
 from fastapi import FastAPI, File, UploadFile
+from fastapi.middleware.cors import CORSMiddleware
 from cv2 import imread, cvtColor, COLOR_BGR2GRAY
 from cv2.aruco import (
     getPredefinedDictionary,
@@ -11,9 +12,19 @@ from tempfile import NamedTemporaryFile
 from io import StringIO
 from sys import stdout
 from os import remove, path
+
 from conversor import indentPseudo, toPython
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*']
+)
+
 
 with open('blocos.json') as f:
     blocos = load(f)
