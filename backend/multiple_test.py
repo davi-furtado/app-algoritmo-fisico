@@ -19,6 +19,7 @@ for path in paths:
     if not response: continue
 
     results[f'test_{index}'] = {'path': path} | response
-    with open('results.json', 'w') as file: dump(result, file)
+    with open('results.json', 'w') as file:
+        dump(result, file, indent=2)
 
     index += 1
