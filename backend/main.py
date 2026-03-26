@@ -123,4 +123,4 @@ async def convert(file: UploadFile = File(...)):
 
 if __name__ == '__main__':
     from uvicorn import run
-    run(app, host='0.0.0.0')
+    run('main:app', host='0.0.0.0', reload=True)
