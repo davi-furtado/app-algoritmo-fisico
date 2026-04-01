@@ -1,21 +1,12 @@
 from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from cv2 import imread, cvtColor, COLOR_BGR2GRAY
-from cv2.aruco import (
-    getPredefinedDictionary,
-    DICT_5X5_100,
-    DetectorParameters,
-    ArucoDetector
-)
-from json import load
+from cv2 import imread
 from tempfile import NamedTemporaryFile
-from io import StringIO
-from sys import stdout
 from os import remove, path
-from multiprocessing import Queue, Process
-import sys
 
+from aruco_reader import read_arucos
 from conversor import indentPseudo, toPython
+from executor import safe_exec
 
 app = FastAPI()
 
@@ -26,91 +17,6 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*']
 )
-
-with open('blocos.json') as f:
-    blocos = load(f)
-
-dictionary = getPredefinedDictionary(DICT_5X5_100)
-
-parameters = DetectorParameters()
-parameters.adaptiveThreshWinSizeMin = 3
-parameters.adaptiveThreshWinSizeMax = 23
-parameters.adaptiveThreshWinSizeStep = 10
-parameters.adaptiveThreshConstant = 7
-
-detector = ArucoDetector(dictionary, parameters)
-
-
-def read_arucos(img):
-    gray = cvtColor(img, COLOR_BGR2GRAY)
-    corners, ids, _ = detector.detectMarkers(gray)
-    if ids is None:
-        return None
-
-    data = []
-    for i, marker_id in enumerate(ids):
-        c = corners[i][0]
-        x = int(c[:, 0].mean())
-        y = int(c[:, 1].mean())
-        data.append((x, y, marker_id[0]))
-
-    data.sort(key=lambda t: (t[1], t[0]))
-    lines = []
-    y_threshold = 40
-    for x, y, marker_id in data:
-        for line in lines:
-            if abs(line['y'] - y) < y_threshold:
-                line['items'].append((x, marker_id))
-                break
-        else:
-            lines.append({'y': y, 'items': [(x, marker_id)]})
-
-    lines.sort(key=lambda l: l['y'])
-    final_text = []
-    for line in lines:
-        line['items'].sort(key=lambda t: t[0])
-        words = []
-        for x, marker_id in line['items']:
-            key = str(marker_id)
-            if key in blocos:
-                words.append(blocos[key])
-        final_text.append(' '.join(words))
-    return '\n'.join(final_text)
-
-
-def run_code(code, queue):
-    sys_stdout = StringIO()
-    sys.stdout = sys_stdout
-    try:
-        exec(code, {})
-        queue.put(sys_stdout.getvalue())
-    except Exception as e:
-        queue.put(f'Erro: {e}')
-
-
-def format_output(output, infinite=False):
-    lines = output.strip().split('\n')
-
-    if infinite and len(lines) > 7:
-        return '\n'.join(lines[:7]) + '\n...'
-
-    return output.strip()
-
-
-def safe_exec(code, timeout=2):
-    queue = Queue()
-    p = Process(target=run_code, args=(code, queue))
-    p.start()
-    p.join(timeout)
-
-    if p.is_alive():
-        p.terminate()
-        p.join()
-        output = queue.get() if not queue.empty() else ''
-        return format_output(output, infinite=True)
-
-    output = queue.get() if not queue.empty() else ''
-    return format_output(output, infinite=False)
 
 
 @app.post('/convert')
@@ -140,6 +46,7 @@ async def convert(file: UploadFile = File(...)):
     try:
         output = safe_exec(python_code)
     except Exception as e:
+        remove(temp_path)
         return {'error': f'Erro ao executar o código: {e}'}
 
     remove(temp_path)
