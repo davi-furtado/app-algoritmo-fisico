@@ -24,6 +24,9 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 
 # Estrutura do Projeto
 
+<details>
+  <summary>Filetree</summary>
+
 ```
 app-algoritmo-fisico/
 │
@@ -82,6 +85,8 @@ app-algoritmo-fisico/
 ├── .gitignore
 └── README.md
 ```
+
+</details>
 
 ## Front-end
 
