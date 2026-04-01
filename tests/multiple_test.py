@@ -1,25 +1,23 @@
-import os
+from os import listdir
 from requests import post
 from json import dump
 
-paths = os.listdir('fotos')
+paths = listdir('fotos')
 url = 'http://localhost:8000/convert'
 
-results = {}
-index = 1
-for path in paths:
-    if not os.path.exists(path): continue
+results = []
 
-    with open(path, 'rb') as entry:
+for path in paths:
+    with open('fotos/'+path, 'rb') as entry:
         files = {'file': entry}
         response = post(url, files=files)
-        if response.status_code != 200: continue
 
-    response = response.json()
-    if not response: continue
+    if response.status_code != 200: continue
 
-    results[f'test_{index}'] = {'path': path} | response
-    with open('results.json', 'w') as file:
-        dump(results, file, indent=2)
+    data = response.json()
+    if not data: continue
 
-    index += 1
+    results.append({'path': path} | data)
+
+with open('results.json', 'w') as file:
+    dump(results, file, indent=2)
