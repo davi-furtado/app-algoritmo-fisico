@@ -34,6 +34,8 @@ def indentLevels(lines):
 
 def indentPseudo(pseudocode):
     lines = pseudocode.split('\n')
+    if lines[0] != 'inicio': lines[0] = 'inicio'
+    if lines[-1] != 'fim': lines.append('fim')
     levels = indentLevels(lines)
 
     result = []
