@@ -27,35 +27,29 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 ```
 app-algoritmo-fisico/
 │
-├── .gitignore
 ├── backend/
-│   ├── auto_return.py
 │   ├── blocos.json
 │   ├── conversor.py
 │   ├── main.py
-│   ├── multiple_test.py
-│   ├── requirements.txt
-│   └── test.py
+│   ├── mono_return.py
+│   └── requirements.txt
 │
 ├── blocos/
 │   ├── arucos/
 │   │   ├── ...
+│   │   ├── 21_verdadeiro.png
+│   │   ├── 22_falso.png
 │   │   ├── 23_inicio.png
 │   │   ├── 24_fim.png
 │   │   ├── 25_mostre.png
 │   │   ├── 26_vale.png
-│   │   ├── 27_quantidade.png
-│   │   ├── 28_valor.png
 │   │   └── ...
 │   │
 │   ├── blocos.json
-│   ├── blocos.pdf
 │   ├── generator.py
 │   └── problemas.pdf
 │
 ├── frontend/
-│   ├── app.json
-│   ├── App.jsx
 │   ├── assets/
 │   │   ├── images/
 │   │   │   ├── adaptive-icon.png
@@ -70,11 +64,21 @@ app-algoritmo-fisico/
 │   │   ├── InsertPhotoBtn.jsx
 │   │   └── SegmentedToggle.jsx
 │   │
+│   ├── app.json
+│   ├── App.jsx
 │   ├── index.js
 │   ├── package-lock.json
 │   ├── package.json
 │   └── styles.js
 │
+├── tests/
+│   ├── fotos/
+│   │
+│   ├── multiple_test.py
+│   ├── requirements.txt
+│   └── test.py
+│
+├── .gitignore
 └── README.md
 ```
 
@@ -135,33 +139,41 @@ Define o **mapeamento entre IDs dos marcadores ArUco e comandos do pseudocódigo
 
 ### Arquivos secundários
 
-#### `auto_return.py`
+#### `mono_return.py`
 
-API que tem um retorno único independente da imagem enviada. Para testar o frontend.
-
-#### `test.py`
-
-Arquivos feitos para testar o backend de forma rápida, sem precisar rodar o front.
-
-#### `multiple_test.py`
-
-Lê uma lista de caminhos de imagens e joga elas para a api.
-Retorna um arquivo `results.json` que contém os testes e seus retornos.
+API que tem um retorno único independente da imagem enviada. Pode ser usada para testar conectividade com o front-end sem processar imagens.
 
 #### `requirements.txt`
 
-Arquivo com todas as bibliotecas usadas
+Arquivo com todas as dependências usadas no back-end.
 
 # Como rodar?
 
+### Configurando o Back-end
+
 1. Abra um terminal na pasta `backend`
-2. Dê o conando `pip install -r requirements.txt`
-3. Dê o comando `python main.py`
-4. Vá no arquivo `App.jsx` e coloque o seu **ip** na constante `ip`
-5. Abra um segundo terminal na pasta `frontend`
-6. Dê o comando `npm install`
-7. Dê o comando `npx expo start`
-8. Caso queira rodar na web, clique no link indicado, senão baixe o app _Expo Go_ no seu celular e escaneie o QR code mostrado
+2. Instale as dependências executando o comando:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Inicie a API com o comando:
+   ```bash
+   python main.py
+   ```
+
+### Configurando o Front-end
+
+1. Vá no arquivo `frontend/App.jsx` e coloque o seu **IP local** na constante `ip` para que o aplicativo consiga comunicar com o backend localmente.
+2. Abra um segundo terminal na pasta `frontend`
+3. Instale as dependências executando:
+   ```bash
+   npm install
+   ```
+4. Inicie o projeto Expo:
+   ```bash
+   npx expo start
+   ```
+5. Caso queira rodar na web, pressione `w` no terminal. Para rodar no celular, baixe o aplicativo **Expo Go** e escaneie o QR code exibido.
 
 # Pasta de blocos físicos
 
@@ -269,6 +281,18 @@ O projeto utiliza:
 - 4 espaços para Python
 
 Isso garante que o código gerado seja **executável imediatamente**.
+
+# Pasta de testes
+
+A pasta `tests` contém utilitários projetados para validar e debugar o back-end (em específico a API de conversão de imagens) rapidamente, sem a necessidade de rodar o front-end simultaneamente. O ambiente de testes possui seu próprio arquivo `requirements.txt`.
+
+## `test.py`
+
+Script simples onde o usuário informa o caminho local de uma imagem por meio da entrada padrão do terminal. O script envia a imagem para o endpoint `/convert` local (porta `8000`) e imprime o JSON retornado pela API na tela.
+
+## `multiple_test.py`
+
+Script iterativo útil para processar e debugar um lote de imagens em sequência. Ele varre uma lista de caminhos de imagens (na variável iterável `paths`), as envia uma por vez para a API e compila os resultados (erros, pseudocódigo gerado e saídas em Python) num arquivo unificado independente chamado `results.json` na própria pasta.
 
 # Exemplo de retorno da API
 

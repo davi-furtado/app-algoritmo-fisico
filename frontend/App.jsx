@@ -17,7 +17,7 @@ import InsertPhotoBtn from './components/InsertPhotoBtn'
 import CodeBox from './components/CodeBox'
 import SegmentedToggle from './components/SegmentedToggle'
 
-const ip = 'SEU_IP_AQUI'
+const ip = '10.3.152.15'
 const url = `http://${ip}:8000/convert`
 
 export default function App() {

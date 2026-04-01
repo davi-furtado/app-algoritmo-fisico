@@ -2,8 +2,8 @@ import os
 from requests import post
 from json import dump
 
+paths = os.listdir('fotos')
 url = 'http://localhost:8000/convert'
-paths = []
 
 results = {}
 index = 1
