@@ -73,6 +73,7 @@ app-algoritmo-fisico/
 │
 ├── tests/
 │   ├── fotos/
+│   │   └── ...
 │   │
 │   ├── multiple_test.py
 │   ├── requirements.txt
