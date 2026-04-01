@@ -20,7 +20,7 @@
   {
     "path": "fotos/img4.jpg",
     "output": "7",
-    "pseudocode": "inicio\n  mostre 10 - 3",
+    "pseudocode": "inicio\n  mostre 10 - 3\nfim",
     "python": "print(10 - 3)"
   }
 ]
