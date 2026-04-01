@@ -12,6 +12,8 @@ from tempfile import NamedTemporaryFile
 from io import StringIO
 from sys import stdout
 from os import remove, path
+from multiprocessing import Queue, Process
+import sys
 
 from conversor import indentPseudo, toPython
 
@@ -24,7 +26,6 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*']
 )
-
 
 with open('blocos.json') as f:
     blocos = load(f)
@@ -77,6 +78,41 @@ def read_arucos(img):
     return '\n'.join(final_text)
 
 
+def run_code(code, queue):
+    sys_stdout = StringIO()
+    sys.stdout = sys_stdout
+    try:
+        exec(code, {})
+        queue.put(sys_stdout.getvalue())
+    except Exception as e:
+        queue.put(f'Erro: {e}')
+
+
+def format_output(output, infinite=False):
+    lines = output.strip().split('\n')
+
+    if infinite and len(lines) > 7:
+        return '\n'.join(lines[:7]) + '\n...'
+
+    return output.strip()
+
+
+def safe_exec(code, timeout=2):
+    queue = Queue()
+    p = Process(target=run_code, args=(code, queue))
+    p.start()
+    p.join(timeout)
+
+    if p.is_alive():
+        p.terminate()
+        p.join()
+        output = queue.get() if not queue.empty() else ''
+        return format_output(output, infinite=True)
+
+    output = queue.get() if not queue.empty() else ''
+    return format_output(output, infinite=False)
+
+
 @app.post('/convert')
 async def convert(file: UploadFile = File(...)):
     ext = path.splitext(file.filename)[1].lower()
@@ -101,18 +137,10 @@ async def convert(file: UploadFile = File(...)):
 
     python_code = toPython(pseudocode)
 
-    stdout_backup = stdout
-    sys_stdout = StringIO()
-    import sys
-    sys.stdout = sys_stdout
-
     try:
-        exec(python_code, {})
-        output = sys_stdout.getvalue().strip()
+        output = safe_exec(python_code)
     except Exception as e:
         return {'error': f'Erro ao executar o código: {e}'}
-
-    sys.stdout = stdout_backup
 
     remove(temp_path)
 
