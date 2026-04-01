@@ -7,5 +7,6 @@ with open(img, 'rb') as file:
     files = {'file': file}
     response = post(url, files=files)
 
-output = response.json()
-print(output)
+result = response.json()
+with open('result.json', 'w') as file:
+    dump(result, file, indent=2)
