@@ -199,12 +199,12 @@ Exemplo simplificado:
 ```json
 {
   ...
+  "21": "verdadeiro",
+  "22": "falso",
   "23": "inicio",
   "24": "fim",
   "25": "mostre",
   "26": "vale",
-  "27": "quantidade",
-  "28": "valor",
   ...
 }
 ```
@@ -215,7 +215,7 @@ Esse arquivo também existe no **backend**, onde é utilizado durante o reconhec
 
 Script responsável por **gerar automaticamente os marcadores ArUco utilizados no projeto**.
 
-Ele cria todas as imagens dentro da pasta `blocos/codes`.
+Ele cria todas as imagens dentro da pasta `blocos/arucos`.
 
 # Fluxo de funcionamento
 
