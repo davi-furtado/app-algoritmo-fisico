@@ -20,6 +20,6 @@ for path in paths:
 
     results[f'test_{index}'] = {'path': path} | response
     with open('results.json', 'w') as file:
-        dump(result, file, indent=2)
+        dump(results, file, indent=2)
 
     index += 1
