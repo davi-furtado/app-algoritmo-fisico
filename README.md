@@ -199,14 +199,12 @@ Exemplo simplificado:
 
 ```json
 {
-  ...
   "21": "verdadeiro",
   "22": "falso",
   "23": "inicio",
   "24": "fim",
   "25": "mostre",
-  "26": "vale",
-  ...
+  "26": "vale"
 }
 ```
 
