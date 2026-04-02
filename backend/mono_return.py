@@ -12,7 +12,7 @@ app = FastAPI(
 
 @app.get('/')
 async def root():
-    return {'message': 'API de Teste Algorítmo Físico'}
+    return {'status': 'ok'}
 
 
 @app.post('/convert')
