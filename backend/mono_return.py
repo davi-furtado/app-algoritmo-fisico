@@ -6,10 +6,7 @@ from uvicorn import run
 app = FastAPI(
     title='API de Teste Algorítmo Físico',
     description='API criada para testar o frontend do App Algorítmo Físico'
-    version='1.0.0',
-    docs_url='/docs',
-    redoc_url=None,
-    openapi_url=None
+    version='1.0.0'
 )
 
 
