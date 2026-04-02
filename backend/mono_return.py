@@ -3,7 +3,20 @@ import cv2, tempfile
 from os import remove, path
 from uvicorn import run
 
-app = FastAPI()
+app = FastAPI(
+    title='API de Teste Algorítmo Físico',
+    description='API criada para testar o frontend do App Algorítmo Físico'
+    version='1.0.0',
+    docs_url='/docs',
+    redoc_url=None,
+    openapi_url=None
+)
+
+
+@app.get('/')
+async def root():
+    return {'message': 'API de Teste Algorítmo Físico'}
+
 
 @app.post('/convert')
 async def convert(file: UploadFile = File(...)):

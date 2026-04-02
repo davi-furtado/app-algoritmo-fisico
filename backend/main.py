@@ -8,7 +8,14 @@ from aruco_reader import read_arucos
 from conversor import indentPseudo, toPython
 from executor import safe_exec
 
-app = FastAPI()
+app = FastAPI(
+    title='API Algorítmo Físico',
+    description='API responsável por converter imagens de pseudocódigo em código Python e executá-lo.',
+    version='1.0.0',
+    docs_url='/docs',
+    redoc_url=None,
+    openapi_url=None
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -17,6 +24,11 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*']
 )
+
+
+@app.get('/')
+async def root():
+    return {'message': 'API Algorítmo Físico'}
 
 
 @app.post('/convert')
