@@ -28,7 +28,7 @@ app.add_middleware(
 
 @app.get('/')
 async def root():
-    return {'message': 'API Algorítmo Físico'}
+    return {'status': 'ok'}
 
 
 @app.post('/convert')
