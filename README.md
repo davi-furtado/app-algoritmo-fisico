@@ -31,8 +31,10 @@ Aplicativo que escaneia pseudocódigos em blocos (algoritmos físicos) a partir 
 app-algoritmo-fisico/
 │
 ├── backend/
+│   ├── aruco_reader.py
 │   ├── blocos.json
 │   ├── conversor.py
+│   ├── executor.py
 │   ├── main.py
 │   ├── mono_return.py
 │   └── requirements.txt
@@ -76,10 +78,13 @@ app-algoritmo-fisico/
 │
 ├── tests/
 │   ├── fotos/
+│   │   ├── img1.jpg
+│   │   ├── img2.jpg
 │   │   └── ...
 │   │
 │   ├── multiple_test.py
 │   ├── requirements.txt
+│   ├── results.json
 │   └── test.py
 │
 ├── .gitignore
@@ -128,12 +133,26 @@ O backend é responsável por:
 
 #### `main.py`
 
-API FastAPI responsável por:
+API FastAPI que atua como ponto de entrada, responsável por:
 
 - Receber a imagem enviada pelo aplicativo
-- Detectar os ArUcos
-- Reconstruir o pseudocódigo
-- Executar o Python gerado
+- Orquestrar a detecção, conversão e execução chamando os módulos auxiliares
+- Retornar os resultados processados
+
+#### `aruco_reader.py`
+
+Módulo dedicado à visão computacional com OpenCV. Responsável por:
+
+- Detectar os marcadores ArUco na imagem
+- Reconstruir o texto do pseudocódigo baseado nas posições espaciais dos idenficadores
+
+#### `executor.py`
+
+Ambiente isolado (via `multiprocessing`) projetado para:
+
+- Executar o código Python gerado
+- Prevenir loops infinitos ou tempo excessivo de execução através de um mecanismo de **timeout**
+- Capturar e interceptar a saída simulando a saída padrão (stdout) e os erros da execução
 
 #### `conversor.py`
 
@@ -288,7 +307,7 @@ Isso garante que o código gerado seja **executável imediatamente**.
 
 # Pasta de testes
 
-A pasta `tests` contém utilitários projetados para validar e debugar o back-end (em específico a API de conversão de imagens) rapidamente, sem a necessidade de rodar o front-end simultaneamente. O ambiente de testes possui seu próprio arquivo `requirements.txt`.
+A pasta `tests` contém utilitários projetados para validar e debugar o back-end (em específico a API de conversão de imagens) rapidamente, sem a necessidade de rodar o front-end simultaneamente. O ambiente de testes possui seu próprio arquivo `requirements.txt` e uma subpasta `fotos/` com imagens de amostra para realizar testes pré-configurados.
 
 ## `test.py`
 

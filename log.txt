@@ -1,0 +1,97 @@
+commit 01dd691cebf22fa0a7000290dc6a2725b1d5d152
+Author: Davi RF <vitor25davi30@gmail.com>
+Date:   Wed Apr 1 21:08:04 2026 -0300
+
+    renemad == aruco
+
+ blocos/arucos/{38_==.png => 38_igual.png} | Bin
+ blocos/generator.py                       |   2 +-
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+
+commit 640778d698d6871e28bfadf84267096147a0d7ad
+Author: Davi RF <vitor25davi30@gmail.com>
+Date:   Wed Apr 1 20:47:53 2026 -0300
+
+    results.json updated
+
+ tests/results.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit cd66402300fb64eb66c8325c7706221ceef899db
+Author: Davi RF <vitor25davi30@gmail.com>
+Date:   Wed Apr 1 20:47:42 2026 -0300
+
+    só no print é melhor
+
+ tests/test.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+commit ae4edc0fd049d5d65016c22cbfb1ad05edc651cb
+Author: Davi RF <vitor25davi30@gmail.com>
+Date:   Wed Apr 1 20:47:19 2026 -0300
+
+    indentation bugfix on conversor.py
+
+ backend/conversor.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 57a8f2c8960425cc2698bc8e7d4efa8b2acbc2f8
+Author: Davi RF <vitor25davi30@gmail.com>
+Date:   Wed Apr 1 18:41:15 2026 -0300
+
+    added tests
+
+ tests/fotos/img1.jpg | Bin 0 -> 438230 bytes
+ tests/fotos/img2.jpg | Bin 0 -> 56119 bytes
+ tests/fotos/img3.jpg | Bin 0 -> 48541 bytes
+ tests/fotos/img4.jpg | Bin 0 -> 111425 bytes
+ tests/results.json   |  26 ++++++++++++++++++++++++++
+ 5 files changed, 26 insertions(+)
+
+commit ca7d0595f007584fc388b4103888584ba75fc844
+Author: Davi RF <vitor25davi30@gmail.com>
+Date:   Wed Apr 1 18:41:04 2026 -0300
+
+    refatored backend/ folder
+
+ backend/aruco_reader.py |  65 +++++++++++++++++++++++++++++++
+ backend/executor.py     |  71 ++++++++++++++++++++++++++++++++++
+ backend/main.py         | 101 ++----------------------------------------------
+ tests/multiple_test.py  |   4 +-
+ 4 files changed, 142 insertions(+), 99 deletions(-)
+
+commit f70c7350687abdb866d76767d8622462112993c3
+Author: Davi RF <vitor25davi30@gmail.com>
+Date:   Wed Apr 1 17:48:17 2026 -0300
+
+    infinite loop bugfix
+
+ backend/main.py | 48 ++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 38 insertions(+), 10 deletions(-)
+
+commit a1a72e2a491c33e7f3a875d6383408714431a0a1
+Author: Davi RF <vitor25davi30@gmail.com>
+Date:   Wed Apr 1 17:13:06 2026 -0300
+
+    SEU_IP_AQUI corrected
+
+ frontend/App.jsx | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 1f06752832d230f2ae3b7bf611121a8c885b3825
+Author: Davi Reis Furtado <151282787+davi-furtado@users.noreply.github.com>
+Date:   Wed Apr 1 16:48:53 2026 -0300
+
+    Atualizar o README.md
+
+ README.md | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+commit 631c7c8ce21cbfb37585ac694616668a781543f8
+Author: Davi Reis Furtado <151282787+davi-furtado@users.noreply.github.com>
+Date:   Wed Apr 1 16:46:03 2026 -0300
+
+    Atualizar o README.md
+
+ README.md | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
