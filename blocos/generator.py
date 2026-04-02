@@ -28,7 +28,7 @@ for id_str, text in blocks.items():
         case '-': name = 'menos'
         case '*': name = 'vezes'
         case '/': name = 'dividido'
-        case '=': name = 'igual'
+        case '==': name = 'igual'
         case '!=': name = 'diferente'
         case '<': name = 'menor'
         case '>': name = 'maior'
