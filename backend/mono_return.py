@@ -5,17 +5,15 @@ from uvicorn import run
 
 app = FastAPI(
     title='API de Teste Algorítmo Físico',
-    description='API criada para testar o frontend do App Algorítmo Físico'
+    description='API criada para testar o frontend do App Algorítmo Físico',
     version='1.0.0'
 )
 
 
-@app.get('/')
-async def root():
-    return {'status': 'ok'}
-
-
-@app.post('/convert')
+@app.post(
+        '/convert',
+        summary='Converter imagem para código',
+        description='Recebe uma imagem e retorna o código correspondente em pseudocódigo e Python.')
 async def convert(file: UploadFile = File(...)):
     ext = path.splitext(file.filename)[1].lower()
     
@@ -34,5 +32,6 @@ async def convert(file: UploadFile = File(...)):
         'pseudocode': 'inicio\n  se 4 > 2\n    mostre 0\n  fim se\nfim',
         'python': 'if 4 > 2:\n    print(0)'
     }
+
 
 run(app, host='0.0.0.0')

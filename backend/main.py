@@ -23,12 +23,11 @@ app.add_middleware(
 )
 
 
-@app.get('/')
-async def root():
-    return {'status': 'ok'}
-
-
-@app.post('/convert')
+@app.post(
+    '/convert',
+    summary='Converter imagem para código',
+    description='Recebe uma imagem e retorna o código correspondente em pseudocódigo e Python.'
+)
 async def convert(file: UploadFile = File(...)):
     ext = path.splitext(file.filename)[1].lower()
 
