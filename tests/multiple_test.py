@@ -2,12 +2,10 @@ from os import listdir
 from requests import post
 from json import dump
 
-paths = ['fotos/' + p for p in listdir('fotos')]
 url = 'http://localhost:8000/convert'
 
 results = []
-
-for path in paths:
+for path in ['fotos/' + p for p in listdir('fotos')]:
     with open(path, 'rb') as entry:
         files = {'file': entry}
         response = post(url, files=files)
