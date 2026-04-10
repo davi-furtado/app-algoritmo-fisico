@@ -69,6 +69,7 @@ app-algoritmo-fisico/
 │   │   ├── InsertPhotoBtn.jsx
 │   │   └── SegmentedToggle.jsx
 │   │
+│   ├── .env.example
 │   ├── app.json
 │   ├── App.jsx
 │   ├── index.js
@@ -188,7 +189,7 @@ Arquivo com todas as dependências usadas no back-end.
 
 ### Configurando o Front-end
 
-1. Vá no arquivo `frontend/App.jsx` e coloque o seu **IP local** na constante `ip` para que o aplicativo consiga comunicar com o backend localmente.
+1. Vá no arquivo `frontend/.env.example`, o renomeie para `.env` e coloque o seu **IP local** na variável `IP` para que o aplicativo consiga comunicar com o backend localmente.
 2. Abra um segundo terminal na pasta `frontend`
 3. Instale as dependências executando:
    ```bash

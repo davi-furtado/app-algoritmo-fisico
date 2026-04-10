@@ -1,3 +1,4 @@
 backend/__pycache__/
+frontend/.env
 frontend/.expo/
 frontend/node_modules/
