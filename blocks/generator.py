@@ -3,7 +3,7 @@ import cv2.aruco as aruco
 import os
 import json
 
-with open('blocos.json') as f:
+with open('blocks.json') as f:
     blocks = json.load(f)
 
 directory = 'arucos'

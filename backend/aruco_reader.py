@@ -7,8 +7,8 @@ from cv2.aruco import (
 )
 from json import load
 
-with open('blocos.json') as f:
-    blocos = load(f)
+with open('blocks.json') as f:
+    blocks = load(f)
 
 dictionary = getPredefinedDictionary(DICT_5X5_100)
 
@@ -57,8 +57,8 @@ def read_arucos(img):
 
         for x, marker_id in line['items']:
             key = str(marker_id)
-            if key in blocos:
-                words.append(blocos[key])
+            if key in blocks:
+                words.append(blocks[key])
 
         final_text.append(' '.join(words))
 

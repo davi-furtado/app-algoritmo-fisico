@@ -32,14 +32,14 @@ app-algoritmo-fisico/
 │
 ├── backend/
 │   ├── aruco_reader.py
-│   ├── blocos.json
+│   ├── blocks.json
 │   ├── conversor.py
 │   ├── executor.py
 │   ├── main.py
 │   ├── mono_return.py
 │   └── requirements.txt
 │
-├── blocos/
+├── blocks/
 │   ├── arucos/
 │   │   ├── ...
 │   │   ├── 21_verdadeiro.png
@@ -50,9 +50,10 @@ app-algoritmo-fisico/
 │   │   ├── 26_vale.png
 │   │   └── ...
 │   │
-│   ├── blocos.json
+│   ├── blocks.json
 │   ├── generator.py
-│   └── problemas.pdf
+│   ├── problems.pdf
+│   └── requirements.txt
 │
 ├── frontend/
 │   ├── assets/
@@ -159,7 +160,7 @@ Ambiente isolado (via `multiprocessing`) projetado para:
 
 Arquivo responsável por converter o pseudocódigo em Python.
 
-#### `blocos.json`
+#### `blocks.json`
 
 Define o **mapeamento entre IDs dos marcadores ArUco e comandos do pseudocódigo**.
 
@@ -203,20 +204,20 @@ Arquivo com todas as dependências usadas no back-end.
 
 # Pasta de blocos físicos
 
-O projeto possui uma pasta `blocos` com os materiais necessários para utilizar o sistema com **algoritmos físicos**.
+O projeto possui uma pasta `blocks` com os materiais necessários para utilizar o sistema com **algoritmos físicos**.
 
-## `blocos.pdf`
+## `blocks.pdf`
 
 PDF contendo **todos os blocos de pseudocódigo prontos para impressão**.
 Os blocos podem ser recortados e utilizados fisicamente para montar algoritmos.
 
-## `problemas.pdf`
+## `problems.pdf`
 
 PDF contendo **exercícios de lógica de programação**.
 
 Os alunos podem resolver os problemas **montando algoritmos com os blocos físicos** e depois usar o aplicativo para verificar a solução.
 
-## `blocos.json`
+## `blocks.json`
 
 Arquivo que define o **mapeamento entre IDs de ArUco e palavras do pseudocódigo**.
 
@@ -239,13 +240,13 @@ Esse arquivo também existe no **backend**, onde é utilizado durante o reconhec
 
 Script responsável por **gerar automaticamente os marcadores ArUco utilizados no projeto**.
 
-Ele cria todas as imagens dentro da pasta `blocos/arucos`.
+Ele cria todas as imagens dentro da pasta `blocks/arucos`.
 
 # Fluxo de funcionamento
 
 1. O front-end envia uma imagem para o endpoint `/convert`
 2. O backend usa **OpenCV ArUco** para detectar os marcadores
-3. Os **IDs detectados são convertidos em palavras** usando `blocos.json`
+3. Os **IDs detectados são convertidos em palavras** usando `blocks.json`
 4. O pseudocódigo gerado é enviado para `toPython()` (`conversor.py`)
 5. O pseudocódigo é transformado em **código Python válido**
 6. O backend executa o código usando `exec`
