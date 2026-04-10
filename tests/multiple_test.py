@@ -5,7 +5,7 @@ from json import dump
 url = 'http://localhost:8000/convert'
 
 results = []
-for path in ['fotos/' + p for p in listdir('fotos')]:
+for path in ['pics/' + p for p in listdir('fotos')]:
     with open(path, 'rb') as entry:
         files = {'file': entry}
         response = post(url, files=files)
