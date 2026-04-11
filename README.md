@@ -293,6 +293,13 @@ mostre _____
 _____ vale __
 ```
 
+### Operadores e Valores
+
+- **Operadores Matemáticos**: `+`, `-`, `*`, `/`
+- **Operadores Relacionais**: `==`, `!=`, `<`, `>`, `<=`, `>=`
+- **Valores Lógicos**: `verdadeiro` e `falso`
+- **Valores e Variáveis Pré-definidas**: Números de `0` a `20`, e as variáveis `quantidade`, `valor`, `valor1`, `valor2`, `amigos`, `resto` e `resultado`.
+
 ## Indentação automática
 
 O conversor implementa um sistema de **controle de níveis de bloco**, permitindo:
@@ -323,6 +330,7 @@ Script iterativo útil para processar e debugar um lote de imagens em sequência
 
 ```json
 {
+  "path": "pics/img2.jpg",
   "output": "10",
   "pseudocode": "inicio\n  valor vale 10\n  valor1 vale 5\n  se valor > valor1\n    mostre valor\n  senao\n    mostre valor1\n  fim se\nfim",
   "python": "valor = 10\nvalor1 = 5\nif valor > valor1:\n    print(valor)\nelse:\n    print(valor1)"
