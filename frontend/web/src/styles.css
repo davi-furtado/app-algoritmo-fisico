@@ -1,0 +1,77 @@
+body {
+  margin: 0;
+  background: #000;
+  font-family: sans-serif;
+}
+
+.container {
+  padding: 12px;
+}
+
+.row {
+  display: flex;
+  gap: 8px;
+  margin-top: 50px;
+}
+
+.btn {
+  background: #1760ff;
+  padding: 12px;
+  flex: 1;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+}
+
+.image {
+  width: 100%;
+  height: 300px;
+  margin-top: 9px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.codeBox {
+  margin-top: 16px;
+  padding: 12px;
+  background: #222528;
+  border-radius: 8px;
+}
+
+.codeTitle {
+  color: #bfbfbf;
+  margin-bottom: 8px;
+}
+
+.code {
+  color: #0f0;
+  white-space: pre;
+  overflow: auto;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.full {
+  max-width: 100%;
+  max-height: 90%;
+}
+
+.modalBtn {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background: red;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+}

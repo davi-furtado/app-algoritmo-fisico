@@ -1,6 +1,8 @@
 <div align="center">
   <h1>APP Algoritmo Físico</h1>
 
+  <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB">
+  <img src="https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white">
   <img src="https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB">
   <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E">
   <img src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54">
@@ -56,27 +58,50 @@ app-algoritmo-fisico/
 │   └── requirements.txt
 │
 ├── frontend/
-│   ├── assets/
-│   │   ├── images/
-│   │   │   ├── adaptive-icon.png
-│   │   │   ├── favicon.png
-│   │   │   ├── icon.png
-│   │   │   └── splash-icon.png
+│   ├── mobile/
+│   │   ├── assets/
+│   │   │   ├── images/
+│   │   │   │   ├── adaptive-icon.png
+│   │   │   │   ├── favicon.png
+│   │   │   │   ├── icon.png
+│   │   │   │   └── splash-icon.png
+│   │   │   │
+│   │   │   └── JetBrainsMonoNL-Bold.ttf
 │   │   │
-│   │   └── JetBrainsMonoNL-Bold.ttf
+│   │   ├── components/
+│   │   │   ├── CodeBox.jsx
+│   │   │   ├── InsertPhotoBtn.jsx
+│   │   │   └── SegmentedToggle.jsx
+│   │   │
+│   │   ├── .env
+│   │   ├── app.json
+│   │   ├── App.jsx
+│   │   ├── index.js
+│   │   ├── package-lock.json
+│   │   ├── package.json
+│   │   └── styles.js
 │   │
-│   ├── components/
-│   │   ├── CodeBox.jsx
-│   │   ├── InsertPhotoBtn.jsx
-│   │   └── SegmentedToggle.jsx
-│   │
-│   ├── .env.example
-│   ├── app.json
-│   ├── App.jsx
-│   ├── index.js
-│   ├── package-lock.json
-│   ├── package.json
-│   └── styles.js
+│   └── web/
+│       ├── public/
+│       │   ├── favicon.svg
+│       │   └── icons.svg
+│       │
+│       ├── src/
+│       │   ├── components/
+│       │   │   ├── CodeBox.jsx
+│       │   │   ├── InsertPhotoBtn.jsx
+│       │   │   └── SegmentedToggle.jsx
+│       │   │
+│       │   ├── .env
+│       │   ├── App.jsx
+│       │   ├── main.jsx
+│       │   └── styles.css
+│       │
+│       ├── eslint.config.js
+│       ├── index.html
+│       ├── package-lock.json
+│       ├── package.json
+│       └── vite.config.js
 │
 ├── tests/
 │   ├── pics/
@@ -97,23 +122,35 @@ app-algoritmo-fisico/
 
 ## Front-end
 
+O front-end é dividido em duas implementações: mobile e web.
+
+### Mobile
+
 Tecnologias utilizadas:
 
 - React Native
 - Expo
 - JavaScript
 
-Responsável pela:
+Responsável pela interface do aplicativo móvel, incluindo:
 
-- Interface do aplicativo
 - Captura ou seleção de imagens
 - Envio da imagem ao backend
+- Exibição do pseudocódigo reconhecido, Python gerado e saída da execução
 
-O front-end também exibe:
+### Web
 
-- Pseudocódigo reconhecido
-- Python gerado
-- Saída da execução
+Tecnologias utilizadas:
+
+- React
+- Vite
+- JavaScript
+
+Responsável pela interface web, oferecendo funcionalidades similares ao mobile:
+
+- Seleção de imagens
+- Envio da imagem ao backend
+- Exibição do pseudocódigo reconhecido, Python gerado e saída da execução
 
 ## Back-end
 
@@ -188,10 +225,13 @@ Arquivo com todas as dependências usadas no back-end.
    python main.py
    ```
 
-### Configurando o Front-end
+### Configurando o Front-end Mobile
 
-1. Vá no arquivo `frontend/.env.example`, o renomeie para `.env` e coloque o seu **IP local** na variável `IP` para que o aplicativo consiga comunicar com o backend localmente.
-2. Abra um segundo terminal na pasta `frontend`
+1. Crie o arquivo `frontend/mobile/.env` e coloque o seu **IP local** na variável `IP` para que o aplicativo consiga comunicar com o backend localmente. Deve ficar assim:
+   ```bash
+   IP=w.x.y.x
+   ```
+2. Abra um terminal na pasta `frontend/mobile`
 3. Instale as dependências executando:
    ```bash
    npm install
@@ -200,7 +240,24 @@ Arquivo com todas as dependências usadas no back-end.
    ```bash
    npx expo start
    ```
-5. Caso queira rodar na web, pressione `w` no terminal. Para rodar no celular, baixe o aplicativo **Expo Go** e escaneie o QR code exibido.
+5. Para rodar no celular, baixe o aplicativo **Expo Go** e escaneie o QR code exibido.
+
+### Configurando o Front-end Web
+
+1. Crie o arquivo `frontend/web/.env` e coloque o seu **IP local** na variável `IP` para que o aplicativo consiga comunicar com o backend localmente. Deve ficar assim:
+   ```bash
+   IP=w.x.y.x
+   ```
+2. Abra um terminal na pasta `frontend/web`
+3. Instale as dependências executando:
+   ```bash
+   npm install
+   ```
+4. Inicie o servidor de desenvolvimento:
+   ```bash
+   npm run dev
+   ```
+5. Abra o navegador no endereço exibido (geralmente `http://localhost:5173`).
 
 # Pasta de blocos físicos
 
