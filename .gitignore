@@ -3,3 +3,4 @@ backend/__pycache__/
 frontend/mobile/.expo/
 frontend/*/.env
 frontend/*/node_modules/
+scripts/
