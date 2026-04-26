@@ -14,7 +14,7 @@ export default function App() {
   const [pseudocode, setPseudocode] = useState('')
   const [python, setPython] = useState('')
   const [output, setOutput] = useState('')
-  const [view, setView] = useState('pseudo')
+  const [view, setView] = useState('Pseudocódigo')
   const [loading, setLoading] = useState(false)
   const [zoom, setZoom] = useState(false)
 
@@ -52,7 +52,7 @@ export default function App() {
     sendImage(f)
   }
 
-  const code = view === 'pseudo' ? pseudocode : python
+  const code = view === 'Pseudocódigo' ? pseudocode : python
 
   return (
     <div className='container'>
@@ -99,8 +99,8 @@ export default function App() {
         <>
           <SegmentedToggle
             options={[
-              { key: 'pseudo', label: 'Pseudocódigo' },
-              { key: 'python', label: 'Python' }
+              { key: 'Pseudocódigo', label: 'Pseudocódigo' },
+              { key: 'Python', label: 'Python' }
             ]}
             value={view}
             onChange={setView}

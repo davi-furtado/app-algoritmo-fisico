@@ -13,8 +13,29 @@ with open('frontend/mobile/.env', 'w') as f:
 with open('frontend/web/.env', 'w') as f:
     f.write(f'IP={ip}')
 
-Popen('uvicorn main:app --host 0.0.0.0', cwd='backend')
+try:
+    Popen('uvicorn main:app --host 0.0.0.0', cwd='backend')
+except:
+    Popen(
+        'pip install -r requirements.txt && uvicorn main:app --host 0.0.0.0',
+        cwd='backend',
+        shell=True
+    )
 
-Popen('npx expo start --port 6000', cwd='frontend/mobile')
+try:
+    Popen('npx expo start --port 6000', cwd='frontend/mobile')
+except:
+    Popen(
+        'npm install && npx expo start --port 6000',
+        cwd='frontend/mobile',
+        shell=True
+    )
 
-Popen('npm run dev -- --host 0.0.0.0 --port 4000', cwd='frontend/web')
+try:
+    Popen('npm run dev -- --host 0.0.0.0 --port 4000', cwd='frontend/web')
+except:
+    Popen(
+        'npm install && npm run dev -- --host 0.0.0.0 --port 4000',
+        cwd='frontend/web',
+        shell=True
+    )
