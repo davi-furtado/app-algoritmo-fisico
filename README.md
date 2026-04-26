@@ -53,6 +53,7 @@ app-algoritmo-fisico/
 │   │   └── ...
 │   │
 │   ├── blocks.json
+│   ├── blocks.pdf
 │   ├── generator.py
 │   ├── problems.pdf
 │   └── requirements.txt
@@ -115,8 +116,11 @@ app-algoritmo-fisico/
 │   └── test.py
 │
 ├── .gitignore
-└── README.md
+├── README.md
+└── run_all.py
 ```
+
+Filetree gerada com a biblioteca [`pyletree`](https://github.com/davi-furtado/pyletree)
 
 </details>
 
@@ -213,7 +217,13 @@ Arquivo com todas as dependências usadas no back-end.
 
 # Como rodar?
 
-### Configurando o Back-end
+## Requisitos
+
+- Python 3.8 ou superior
+- Node.js 14 ou superior
+- npm 6 ou superior
+
+## Configurando o Back-end
 
 1. Abra um terminal na pasta `backend`
 2. Instale as dependências executando o comando:
@@ -224,8 +234,12 @@ Arquivo com todas as dependências usadas no back-end.
    ```bash
    python main.py
    ```
+   ou
+   ```bash
+   uvicorn main:app --host 0.0.0.0
+   ```
 
-### Configurando o Front-end Mobile
+## Configurando o Front-end [Mobile]
 
 1. Crie o arquivo `frontend/mobile/.env` e coloque o seu **IP local** na variável `IP` para que o aplicativo consiga comunicar com o backend localmente. Deve ficar assim:
    ```bash
@@ -238,11 +252,11 @@ Arquivo com todas as dependências usadas no back-end.
    ```
 4. Inicie o projeto Expo:
    ```bash
-   npx expo start
+   npx expo start --port 6000
    ```
 5. Para rodar no celular, baixe o aplicativo **Expo Go** e escaneie o QR code exibido.
 
-### Configurando o Front-end Web
+## Configurando o Front-end [Web]
 
 1. Crie o arquivo `frontend/web/.env` e coloque o seu **IP local** na variável `IP` para que o aplicativo consiga comunicar com o backend localmente. Deve ficar assim:
    ```bash
@@ -255,9 +269,35 @@ Arquivo com todas as dependências usadas no back-end.
    ```
 4. Inicie o servidor de desenvolvimento:
    ```bash
-   npm run dev
+   npm run dev -- --host 0.0.0.0 --port 4000
    ```
-5. Abra o navegador no endereço exibido (geralmente `http://localhost:5173`).
+5. Abra o navegador no endereço `http://localhost:4000` ou `http://<seu_ip>:4000`.
+
+## Usando o `run_all.py`
+
+O arquivo `run_all.py` automatiza a criação dos arquivos `.env` e inicia os três serviços do projeto:
+
+- `backend`
+- `frontend/mobile`
+- `frontend/web`
+
+Ele obtém o IP local da máquina e escreve `IP=<seu_ip>` em:
+
+- `backend/.env`
+- `frontend/mobile/.env`
+- `frontend/web/.env`
+
+Depois, ele tenta iniciar:
+
+- `uvicorn` para o backend
+- `expo start` para o app mobile
+- `npm run dev` para o web
+
+Para usar, execute o script na raiz do projeto:
+
+```bash
+python run_all.py
+```
 
 # Pasta de blocos físicos
 
