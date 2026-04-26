@@ -117,7 +117,8 @@ app-algoritmo-fisico/
 │
 ├── .gitignore
 ├── README.md
-└── run_all.py
+├── run_all.py
+└── set_envs.py
 ```
 
 Filetree gerada com a biblioteca [`pyletree`](https://github.com/davi-furtado/pyletree)
@@ -273,21 +274,22 @@ Arquivo com todas as dependências usadas no back-end.
    ```
 5. Abra o navegador no endereço `http://localhost:4000` ou `http://<seu_ip>:4000`.
 
-## Usando o `run_all.py`
+## Usando os scripts de automação
 
-O arquivo `run_all.py` automatiza a criação dos arquivos `.env` e inicia os três serviços do projeto:
+O arquivo `set_envs.py` automatiza a criação dos arquivos `.env` para o frontend mobile e o frontend web, preenchendo a variável `IP` com o endereço IP local da máquina.
+
+Ele reescreve os arquivos:
+
+- `frontend/mobile/.env`
+- `frontend/web/.env`
+
+O arquivo `run_all.py` inicia os três serviços do projeto automaticamente:
 
 - `backend`
 - `frontend/mobile`
 - `frontend/web`
 
-Ele obtém o IP local da máquina e escreve `IP=<seu_ip>` em:
-
-- `backend/.env`
-- `frontend/mobile/.env`
-- `frontend/web/.env`
-
-Depois, ele tenta iniciar:
+Ele tenta iniciar:
 
 - `uvicorn` para o backend
 - `expo start` para o app mobile
