@@ -154,7 +154,7 @@ O site usa `http://localhost:8000/` por padrão. Para alterar a URL da API,
 crie `frontend/.env`:
 
 ```env
-VITE_API_URL=http://192.168.0.10:8000/
+API_URL=http://192.168.0.10:8000/
 ```
 
 Comandos disponíveis no `frontend/package.json`:

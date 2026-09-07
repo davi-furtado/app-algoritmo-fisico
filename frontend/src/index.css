@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'JetBrains Mono';
-  src: url('../public/JetBrainsMonoNL-Bold.ttf') format('truetype');
+  src: url('/JetBrainsMonoNL-Bold.ttf') format('truetype');
   font-weight: 700;
   font-display: swap;
 }
@@ -9,21 +9,38 @@
   color: #dcdcdc;
   background: #000;
   font-family: Inter, system-ui, sans-serif;
+  color-scheme: dark;
 }
 
 * {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
+html,
+body,
+#root {
+  width: 100%;
   min-width: 320px;
+  min-height: 100%;
+  margin: 0;
   background: #000;
+}
+
+html {
+  min-height: 100%;
+  overscroll-behavior: none;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  overscroll-behavior-y: none;
 }
 
 button {
   font: inherit;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 button:disabled {
@@ -33,7 +50,9 @@ button:disabled {
 
 .app-shell {
   min-height: 100vh;
-  padding: 32px 20px;
+  min-height: 100dvh;
+  padding: max(32px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right))
+    max(32px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));
   background: radial-gradient(circle at 50% -20%, #17244a 0, #000 45%);
 }
 
@@ -269,7 +288,8 @@ h1 {
 
 @media (max-width: 560px) {
   .app-shell {
-    padding: 24px 14px;
+    padding: max(24px, env(safe-area-inset-top)) max(14px, env(safe-area-inset-right))
+      max(24px, env(safe-area-inset-bottom)) max(14px, env(safe-area-inset-left));
   }
 
   .app-header p:not(.eyebrow) {
@@ -281,4 +301,3 @@ h1 {
     font-size: 12px;
   }
 }
-

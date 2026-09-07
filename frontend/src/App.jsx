@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from 'react'
 import { MdAdd, MdContentCopy } from 'react-icons/md'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/'
+const API_URL = import.meta.env.API_URL || 'http://localhost:8000/'
 
 function ActionButton({
   children,
@@ -97,9 +97,14 @@ export default function App() {
 
   async function copyText(value) {
     if (!value) return
-    await navigator.clipboard.writeText(value)
-    setMessage('Copiado para a área de transferência.')
-    window.setTimeout(() => setMessage(''), 1800)
+    try {
+      await navigator.clipboard.writeText(value)
+      setMessage('Copiado para a área de transferência.')
+      window.setTimeout(() => setMessage(''), 1800)
+    } catch {
+      setMessage('Não foi possível copiar o conteúdo.')
+      window.setTimeout(() => setMessage(''), 1800)
+    }
   }
 
   return (
@@ -212,3 +217,4 @@ export default function App() {
     </main>
   )
 }
+
