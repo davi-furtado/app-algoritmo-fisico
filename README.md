@@ -56,7 +56,6 @@ algoritmo-fisico/
 ├── frontend/
 │   ├── .env
 │   ├── .gitignore
-│   ├── eslint.config.js
 │   ├── index.html
 │   ├── package.json
 │   ├── package-lock.json
